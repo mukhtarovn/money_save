@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+    {% extends 'main/base.html' %}
+<html lang="en">
+<head>
+    {% load static %}
+</head>
+    <body>
+        {%block content%}
+        <div class="container-sm clearfix">
+            <p class="fs-3 fw-semibold ">ВСЕГО СОХРАНИЛИ СЕГОДНЯ: <strong class="display-1 font-monospace text-primary">{{daily_save}}</strong></p>
+    <hr class="border border-success border-3 opacity-75">
+            <div class="row">
+                <div class="position-relative col">
+                </div>
+                <div class="position-relative col">
+                    <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg" id="form_exp">
+                            {%csrf_token%}
+                            {{dailyexp.as_p}}
+                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
+                    </form>
+                    <form action="{% url 'main' %}" method="GET" class="form-select form-select-lg mb-3 shadow-lg" id="form_inc" style="display:none">
+                            {%csrf_token%}
+                            {{dailyinc.as_p}}
+                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
+                    </form>
+                    <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="form_choice_inc()">
+                              <label class="form-check-label" for="inlineRadio1">ДОХОДЫ</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="form_choice_exp()" checked>
+                              <label class="form-check-label" for="inlineRadio2">РАСХОДЫ</label>
+                            </div>
+                                <table class="table table-striped table-hover table-bordered shadow-lg p-6 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
+                        <thead>
+                                <th scope="col" class="table-head-expemses">РАСХОДЫ ЗА СЕГОДНЯ</th>
+                                <th scope="col" class="table-head-expemses"><a href="{%url 'addexpcat'%}">Добав. кат.</a></th>
+                             <tr>
+                        </thead>
+                        <tbody>
+                        {%for key, val in table_daily_exp.items%}
+                            <tr>
+                              <td scope="row">{{key|upper}}</td>
+                              <td>{{val}}</td>
+                            </tr>
+                        {%endfor%}
+                              <tr class="table-group-divider">
+                                    <th scope="row" class="text-bg-secondary "><strong>ВСЕГО</strong></th>
+                                  {%if total_exp.sum__sum == None%}
+                                    <td class="text-bg-secondary"><strong>---</strong></td>
+                                  {%else%}
+                                    <td class="text-bg-secondary"><strong>{{total_exp.sum__sum}}</strong></td>
+                                  {%endif%}
+                                </tr>
+                        </tbody>
+
+                    </table>
+                                <table class="table table-striped table-hover table-bordered shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="head-color">ДОХОДЫ</th>
+                                <th scope="col" class="head-color"><a href="{%url 'addinccat'%}">добав.кат</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {%for key, val in table_daily_inc.items%}
+                            <tr>
+                              <td scope="row">{{key|upper}}</td>
+                              <td>{{val}}</td>
+                            </tr>
+                        {%endfor%}
+                                <th scope="row" class="text-bg-secondary"> <strong>ВСЕГО</strong></th>
+                                {%if total_inc.sum__sum != None%}
+                                   <td class="text-bg-secondary"><strong>{{total_inc.sum__sum}}</strong></td>
+                                    {%else%}
+                                    <td class="text-bg-secondary"><strong>---</strong></td>
+                                {%endif%}
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                <div class="position-relative col">
+
+    </div>
+            </div>
+            </div>
+        </div>
+
+        {%endblock%}
+    </body>
+</html>

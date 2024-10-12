@@ -1,0 +1,18 @@
+.table {
+    width: fixed;
+}
+
+th.head-color {
+    background-color: #41fa53;
+    color: white;
+}
+
+th.table-head-expemses {
+    background-color: #fa4141;
+    color: white;
+}
+
+table-expenses-total {
+        background-color: #808080;
+        border-style: solid;
+        }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+ {% extends 'main/base.html' %}
+<html lang="en">
+<head>
+     {% load static %}
+</head>
+<body>
+{%block content%}
+<figure class="figure border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
+        <figcaption class="figure-caption"><h3>Добавление категорий расходов</H3></figcaption>
+    <form class="form-horizontal" action="{% url 'addexpcat' %}" method="post">
+        {% csrf_token %}
+        {{add_expenses_category_form.as_p}}
+        <br>
+        <input class="form-control btn btn-success" type="submit" value="Сохранить">
+    </form>
+        <a href="{% url 'main' %}" class="">на главную</a>
+</figure>
+{%endblock%}
+</body>
+</html>

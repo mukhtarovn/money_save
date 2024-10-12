@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+    {% extends 'authapp/base.html' %}
+<html lang="en">
+<head>
+
+    {% load static %}
+</head>
+<body>
+
+{%block content%}
+<div class="container position-absolute top-50 start-50 translate-middle">
+    <figure class="figure border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle shadow-lg">
+  <figcaption class="figure-caption"><h3>Вход</H3></figcaption>
+    <form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
+        {% csrf_token %}
+        {{ login_form.as_p }}
+        <br>
+        <input class="form-control btn btn-success" type="submit" value="Войти">
+    </form>
+        <div class="d-grid gap-2 col-6 mx-auto m-1">
+            <a href="{% url 'auth:register' %}" class="btn btn-outline-success">Регистрация</a>
+        </div>
+        </figure>
+    </div>
+{%endblock%}
+</body>
+</html>
+
