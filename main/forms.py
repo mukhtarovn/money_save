@@ -5,13 +5,13 @@ from .models import Category, CategoryIncomes, UserCategoryIncomes, UserCategory
 class DailyIncForm (forms.Form):
     sum = forms.IntegerField(label="СУММА")
     category = forms.ModelChoiceField(queryset=CategoryIncomes.objects.all(), label="КАТЕГОРИЯ", empty_label='Категория не выбранна')
-    description = forms.CharField(max_length=100, label="ОПИСАНИЕ", widget=(forms.Textarea(attrs={'rows': 3, 'cols': 30})))
+    description = forms.CharField(max_length=100, label="ОПИСАНИЕ", required=False, widget=(forms.Textarea(attrs={'rows': 3, 'cols': 30})))
 
 
 class DailyExpForm (forms.Form):
     sum = forms.IntegerField(label="СУММА")
     category = forms.ModelChoiceField(queryset=Category.objects.all(), label="КАТЕГОРИЯ", empty_label='Категория не выбранна')
-    description = forms.CharField(max_length=100, label="ОПИСАНИЕ", widget=(forms.Textarea(attrs={'rows': 3, 'cols': 30})))
+    description = forms.CharField(max_length=100, label="ОПИСАНИЕ", required=False, widget=(forms.Textarea(attrs={'rows': 3, 'cols': 30})))
 
 class AddIncCategoryForm(forms.ModelForm):
 

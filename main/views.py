@@ -1,5 +1,6 @@
+from calendar import monthrange
 
-from django.db.models import Sum, Avg, Count
+from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -7,7 +8,7 @@ from django.urls import reverse
 from authapp.models import NewUser
 from .models import Income, NecessaryExpenses, DailyExpenses, Category, CategoryIncomes, DailyIncoms, \
     UserCategoryExpenses, UserCategoryIncomes
-from datetime import date
+from datetime import date, datetime
 from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm
 
 today = date.today().strftime('%d %B %Y')
@@ -24,6 +25,7 @@ def calculate(request):
         total_save = 0
     content = {
         "users": NewUser.objects.all(),
+        "today": date.today().strftime('%B'),
         "incomes": total_table(Income, request),
         "expenses": total_table(NecessaryExpenses, request),
         "total_expenses": total_exp,
@@ -62,10 +64,18 @@ def main_page(request):
 
     total_inc=DailyIncoms.objects.filter(user=request.user).aggregate(Sum('sum'))
     total_exp=DailyExpenses.objects.filter(user=request.user).aggregate(Sum('sum'))
+    if total_exp['sum__sum'] == None:
+        total_exp['sum__sum']=0
+    if total_inc['sum__sum'] == None:
+        total_inc['sum__sum']=0
+
     try:
         daily_save = total_inc['sum__sum'] - total_exp['sum__sum']
     except:
         daily_save = 0
+
+    monthly_save = NewUser.objects.get(username=request.user)
+    daily_save_amount = monthly_save.monthly_save_amount / monthrange(2024, datetime.now().month)[1]
     content = {'title': title,
                'dailyexp': dailyexp_form,
                'dailyinc': dailyinc_form,
@@ -75,9 +85,12 @@ def main_page(request):
                'total_inc': total_inc,
                'total_exp': total_exp,
                'daily_save': daily_save,
+               'daily_save_amount': round(daily_save_amount),
+               'weekly_save_amount': round(daily_save_amount)*7,
+               'monthly_save_amount': monthly_save.monthly_save_amount,
+               'year_save_amount': round(daily_save_amount)*365,
                }
     return render(request, 'main/index.html', content)
-
 
 def total_table(model, request):
     table_category_summ = {}
@@ -89,16 +102,6 @@ def total_table(model, request):
         except:
             pass
     return table_category_summ
-
-# def total_summ():
-#     table_user = model.objects.filter(user=request.user)
-    # for i in range(7): #(category.objects.all().count()):
-    #     table = model.objects.filter(user=request.user, category=i+1)
-    #     if len(table.values('category')) > 1:
-    #         sum = table.aggregate(Sum('sum'))
-    #         new = table.all().first()
-    #
-    #     return table_user.aggregate(Sum('sum'))
 
 def add_incomes_category(request):
     title = 'Создание категорий'
@@ -135,12 +138,9 @@ def clean_daily_exp_and_inc():
 
 def for_table_data(data):
     result = [['Task', 'Hours per Day'],]
-    tup=[]
     for i, k in data.items():
         item = []
         item.append(i)
         item.append(k)
         result.append(item)
-    tup.append(result)
-    res=tuple(tup)
-    return str(res)
+    return result

@@ -67,12 +67,11 @@ class Income(models.Model):
         return f"{self.user}"
 
 
-#
 class NecessaryExpenses(models.Model):
     user = models.ForeignKey(NewUser, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ')
     sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
-    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True, null=True)
+    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True)
     time_create = models.DateTimeField(verbose_name='ДАТА СОЗДАНИЯ', auto_now_add=True)
     time_update = models.DateTimeField(verbose_name='ДАТА ОБНОВЛЕНИЯ', auto_now=True)
     class Meta:
@@ -85,7 +84,7 @@ class DailyExpenses(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ', default=1)
     sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
-    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True, null=True)
+    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True)
     time_create = models.DateTimeField(verbose_name='ДАТА ОПЕРАЦИИ', auto_now_add=True)
 
     class Meta:
@@ -109,3 +108,15 @@ class DailyIncoms(models.Model):
     def __str__(self):
         return f'{self.user}'
 
+class FinancialStatement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    monthly_incoms = models.PositiveIntegerField(verbose_name='Meсячный доход', default=0)
+    monthly_expenses = models.PositiveIntegerField(verbose_name='Meсячный расход', default=0)
+    monthly_target = models.PositiveIntegerField(verbose_name='Сохранить', default=0)
+
+    class Meta:
+        verbose_name = 'Финасы'
+        verbose_name_plural = 'Финасы'
+
+    def __str__(self):
+        return f'{self.user}'

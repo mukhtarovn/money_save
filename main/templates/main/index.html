@@ -3,23 +3,81 @@
 <html lang="en">
 <head>
     {% load static %}
+    {%block js%}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{%static 'js/javascript.js' %}"></script>
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+      var total = {{total_exp.sum__sum|safe}}
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Расход', total],
+        ]);
+        var options = {
+          width: 200, height: 200,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          greenFrom:30, greenTo: 75,
+          minorTicks: 10
+        };
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+     <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+      var save = {{daily_save|safe}}
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Сохр', save],
+        ]);
+
+        var options = {
+          width: 200, height: 200,
+          redFrom: 0, redTo: 20,
+          yellowFrom:20, yellowTo: 50,
+          greenFrom:50, greenTo: 100,
+          minorTicks: 10
+        };
+
+        var chartik = new google.visualization.Gauge(document.getElementById('chartik_div'));
+
+        chartik.draw(data, options);
+
+      }
+    </script>
+    {%endblock%}
 </head>
     <body>
         {%block content%}
         <div class="container-sm clearfix">
-            <p class="fs-3 fw-semibold ">ВСЕГО СОХРАНИЛИ СЕГОДНЯ: <strong class="display-1 font-monospace text-primary">{{daily_save}}</strong></p>
-    <hr class="border border-success border-3 opacity-75">
+            <p class="fs-3 fw-semibold ">ВСЕГО СОХРАНИЛИ СЕГОДНЯ: <strong class="display-1 font-monospace text-primary">{{daily_save}}</strong> </p>
+            <hr class="border border-success border-3 opacity-75">
             <div class="row">
                 <div class="position-relative col">
+                    <p class="fs-5 fw-semibold ">Цель: сохранить {{monthly_save_amount}} в месяц. Для этого миниму нужно откладывать: </p>
+                    <p class="fs-5 fw-semibold">За день - <strong class="display-6 font-monospace text-danger">{{daily_save_amount}}</strong> </p>
+                    <p class="fs-5 fw-semibold ">За неделю - <strong class="display-6 font-monospace text-danger">{{weekly_save_amount}}</strong> </p>
+                    <hr class="divider">
+                    <p class="fs-5 fw-semibold ">За год можем сохранить- <strong class="display-6 font-monospace text-danger">{{year_save_amount}}</strong> </p>
+
                 </div>
                 <div class="position-relative col">
                     <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg" id="form_exp">
-                            {%csrf_token%}
+                        <br>
+                        {%csrf_token%}
                             {{dailyexp.as_p}}
                         <button class="form-control btn btn-primary" type="submit">Отправить</button>
                     </form>
                     <form action="{% url 'main' %}" method="GET" class="form-select form-select-lg mb-3 shadow-lg" id="form_inc" style="display:none">
-                            {%csrf_token%}
+                             <br>
+                        {%csrf_token%}
                             {{dailyinc.as_p}}
                         <button class="form-control btn btn-primary" type="submit">Отправить</button>
                     </form>
@@ -78,9 +136,13 @@
                             </tr>
                         </tbody>
                     </table>
-
                     </div>
                 <div class="position-relative col">
+                <div id="chart_div" style="width: 200px; height: 120px;"></div>
+                    <br>
+                    <br>
+                    <br>
+                    <div id="chartik_div" style="width: 200px; height: 120px;"></div>
 
     </div>
             </div>

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from main.models import Income, NecessaryExpenses, DailyExpenses, Category, DailyIncoms, CategoryIncomes, \
-    UserCategoryExpenses, UserCategoryIncomes
+    UserCategoryExpenses, UserCategoryIncomes, FinancialStatement
 
 
 # admin.site.register(Income)
@@ -60,3 +60,8 @@ class PostAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = ['user', 'name', 'description']
     ordering = ('name',)
+
+@admin.register(FinancialStatement)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['user', 'monthly_incoms', 'monthly_expenses', 'monthly_target']
+    ordering = ('user',)

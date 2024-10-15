@@ -15,4 +15,377 @@ th.table-head-expemses {
 table-expenses-total {
         background-color: #808080;
         border-style: solid;
-        }
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 310px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+#container {
+    height: 400px;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+@import url("https://code.highcharts.com/css/highcharts.css");
+@import url("https://code.highcharts.com/dashboards/css/datagrid.css");
+@import url("https://code.highcharts.com/dashboards/css/dashboards.css");
+
+h1#title {
+    padding-top: 10px;
+    margin: 0;
+    background-color: #3d3d3d;
+    text-align: center;
+    color: #fff;
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-title::before,
+#kpi-iron .highcharts-dashboards-component-title::before {
+    width: 14px;
+    height: 14px;
+    border-radius: 28px;
+    display: inline-block;
+    padding: 0;
+    margin-right: 4px;
+    background-color: var(--highcharts-color-0);
+    content: " ";
+}
+
+#kpi-iron .highcharts-dashboards-component-title::before {
+    background-color: var(--highcharts-color-2);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-subtitle,
+#kpi-iron .highcharts-dashboards-component-kpi-subtitle {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: var(--highcharts-neutral-color-60);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-value,
+#kpi-iron .highcharts-dashboards-component-kpi-value {
+    font-size: 4em;
+    line-height: 2.4rem;
+    margin-top: 10px;
+    color: var(--highcharts-color-0);
+}
+
+#kpi-iron .highcharts-dashboards-component-kpi-value {
+    color: var(--highcharts-color-2);
+}
+
+#dashboard-col-1 .highcharts-color-0 {
+    fill: var(--highcharts-color-2);
+    stroke: var(--highcharts-color-2);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-value::after,
+#kpi-iron .highcharts-dashboards-component-kpi-value::after {
+    content: "micrograms";
+    display: block;
+    font-size: 1rem;
+}
+
+.highcharts-plot-line {
+    stroke-dasharray: 2px;
+    stroke: var(--highcharts-color-3);
+}
+
+.highcharts-plot-line-label {
+    fill: var(--highcharts-color-3);
+}
+
+.highcharts-description {
+    padding: 0 20px;
+}
+
+#dashboard-col-2 {
+    height: 323px;
+}
+
+#kpi-vitamin-a,
+#kpi-iron {
+    flex: 1 1 100%;
+    height: 205px;
+}
+
+/* LARGE */
+@media (max-width: 1200px) {
+    #dashboard-col-0,
+    #dashboard-col-1 {
+        flex: 1 1 35%;
+    }
+
+    #kpi-wrapper {
+        flex: 1 1 30%;
+    }
+
+    #kpi-vitamin-a,
+    #kpi-iron {
+        flex: 1 1 100%;
+    }
+}
+
+/* MEDIUM */
+@media (max-width: 992px) {
+    #dashboard-col-0,
+    #dashboard-col-1 {
+        flex: 1 1 50%;
+    }
+
+    #kpi-wrapper {
+        flex: 1 1 100%;
+    }
+
+    #kpi-vitamin-a,
+    #kpi-iron {
+        flex: 1 1 50%;
+    }
+}
+
+/* SMALL */
+@media (max-width: 576px) {
+    #dashboard-col-0,
+    #dashboard-col-1 {
+        flex: 1 1 100%;
+    }
+
+    #kpi-wrapper {
+        flex: 1 1 100%;
+    }
+
+    #kpi-vitamin-a,
+    #kpi-iron {
+        flex: 1 1 50%;
+    }
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 360px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+@import url("https://code.highcharts.com/css/highcharts.css");
+@import url("https://code.highcharts.com/dashboards/css/datagrid.css");
+
+body {
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+}
+
+#container {
+    padding: 10px;
+    background-color: var(--highcharts-neutral-color-5);
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.cell {
+    flex: 1;
+    min-width: 20px;
+}
+
+.cell > .highcharts-dashboards-component {
+    position: relative;
+    margin: 10px;
+    background-clip: border-box;
+    background-color: var(--highcharts-background-color);
+}
+
+#kpi-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#kpi-wrapper,
+#dashboard-col-0,
+#dashboard-col-1,
+#dashboard-col-2 {
+    flex: 1;
+    min-width: 0;
+}
+
+#kpi-vitamin-a,
+#kpi-iron {
+    flex-grow: 1;
+}
+
+h1#title {
+    padding-top: 10px;
+    margin: 0;
+    background-color: #3d3d3d;
+    text-align: center;
+    color: #fff;
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-title::before,
+#kpi-iron .highcharts-dashboards-component-title::before {
+    width: 14px;
+    height: 14px;
+    border-radius: 28px;
+    display: inline-block;
+    padding: 0;
+    margin-right: 4px;
+    background-color: var(--highcharts-color-0);
+    content: " ";
+}
+
+#kpi-iron .highcharts-dashboards-component-title::before {
+    background-color: var(--highcharts-color-2);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-subtitle,
+#kpi-iron .highcharts-dashboards-component-kpi-subtitle {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: var(--highcharts-neutral-color-60);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi,
+#kpi-iron .highcharts-dashboards-component-kpi {
+    padding: 10px;
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-value,
+#kpi-iron .highcharts-dashboards-component-kpi-value {
+    font-size: 4em;
+    line-height: 2.4rem;
+    margin-top: 10px;
+    color: var(--highcharts-color-0);
+}
+
+#kpi-iron .highcharts-dashboards-component-kpi-value {
+    color: var(--highcharts-color-2);
+}
+
+#dashboard-col-1 .highcharts-color-0 {
+    fill: var(--highcharts-color-2);
+    stroke: var(--highcharts-color-2);
+}
+
+#kpi-vitamin-a .highcharts-dashboards-component-kpi-value::after,
+#kpi-iron .highcharts-dashboards-component-kpi-value::after {
+    content: "micrograms";
+    display: block;
+    font-size: 1rem;
+}
+
+.highcharts-plot-line {
+    stroke-dasharray: 2px;
+    stroke: var(--highcharts-color-3);
+}
+
+.highcharts-plot-line-label {
+    fill: var(--highcharts-color-3);
+}
+
+.highcharts-description {
+    padding: 0 20px;
+}
+
+.highcharts-dashboards-component-kpi-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.highcharts-dashboards-component-kpi {
+    min-height: 100px;
+    text-align: center;
+}
+
+@media (max-width: 992px) {
+    .row {
+        flex-direction: column;
+    }
+
+    #kpi-wrapper {
+        flex-direction: row;
+        flex: unset;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    #dashboard-col-0,
+    #dashboard-col-1 {
+        flex: unset;
+        width: 100%;
+    }
+}

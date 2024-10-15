@@ -18,7 +18,7 @@ class NewUserRegisterForm(UserCreationForm):
         model = NewUser
         fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age')
         labels = {'username': 'Ник', 'first_name': 'Имя', 'email': 'Адрес эл. почта',
-                  'password1': "Пароль", 'password2': "Подтверджение" }
+                  'password1': "Пароль", 'password2': "Подтверджение", 'monthly_save_amount': 'Какую сумму хотели бы сохранять в месяц?' }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -30,7 +30,7 @@ class NewUserEditForm(UserChangeForm):
     class Meta:
         model = NewUser
         fields = ('username', 'first_name', 'email', 'age')
-        labels = {'username': 'Ник', 'first_name': 'Имя', 'email': 'Адрес эл. почта'}
+        labels = {'username': 'Ник', 'first_name': 'Имя', 'email': 'Адрес эл. почта', 'monthly_save_amount': 'Какую сумму хотели бы сохранять в месяц?'}
     def __init__(self, *args, **kwargs):
         super(NewUserEditForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():

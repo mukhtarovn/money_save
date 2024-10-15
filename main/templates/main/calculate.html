@@ -4,22 +4,53 @@
 <head>
     {% load static %}
     {%block js%}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
+      google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
+        var u = {{simple|safe}}
       function drawChart() {
-        var data = google.visualization.arrayToDataTable{{simple}};
+       var data = google.visualization.arrayToDataTable(u);
 
-        var options = {
-          title: 'My Daily Activities',
+       var options = {
+          title: 'Расходы за месяц',
           pieHole: 0.4,
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
         chart.draw(data, options);
       }
+
     </script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['День недели', 'Доходы', 'Расходы'],
+          ['Пн', 32, 400],
+          ['Вт', 80, 460],
+          ['Ср', 660, 90],
+          ['Чт', 90, 540],
+          ['Пт', 100, 540],
+          ['Сб', 23, 540],
+          ['Вс', 90, 540],
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Доходы и Расходы',
+            subtitle: 'За последнюю неделю',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+
 {%endblock%}
 
 </head>
@@ -60,7 +91,6 @@
     </tr>
   </thead>
   <tbody>
-  {{simple}}
   {%for key, val in incomes.items%}
     <tr>
       <td>{{key|upper}}</td>
@@ -76,8 +106,9 @@
     </div>
 
     <div class="col">
-        <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    </div>
+         <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <br><br>
+<div id="columnchart_material" style="width: 800px; height: 500px;">    </div>
   </div>
 </div>
 
