@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from authapp.models import NewUser
 from .models import Income, NecessaryExpenses, DailyExpenses, Category, CategoryIncomes, DailyIncoms, \
-    UserCategoryExpenses, UserCategoryIncomes
+    UserCategoryExpenses, UserCategoryIncomes, FinancialStatement
 from datetime import date, datetime
 from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm
 
@@ -74,8 +74,10 @@ def main_page(request):
     except:
         daily_save = 0
 
-    monthly_save = NewUser.objects.get(username=request.user)
-    daily_save_amount = monthly_save.monthly_save_amount / monthrange(2024, datetime.now().month)[1]
+    monthly_save = FinancialStatement.objects.get(user=request.user)
+    daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
+    max_monthly_exp = monthly_save.monthly_incoms-monthly_save.monthly_target
+    print(round(daily_save/round(daily_save_amount)*100))
     content = {'title': title,
                'dailyexp': dailyexp_form,
                'dailyinc': dailyinc_form,
@@ -87,8 +89,11 @@ def main_page(request):
                'daily_save': daily_save,
                'daily_save_amount': round(daily_save_amount),
                'weekly_save_amount': round(daily_save_amount)*7,
-               'monthly_save_amount': monthly_save.monthly_save_amount,
+               'monthly_save_amount': monthly_save.monthly_target,
                'year_save_amount': round(daily_save_amount)*365,
+               'max_daily_exp': round(max_monthly_exp/monthrange(2024, datetime.now().month)[1]),
+               'degre_exp': round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100),
+               'degre_save': round(daily_save/round(daily_save_amount)*100)
                }
     return render(request, 'main/index.html', content)
 

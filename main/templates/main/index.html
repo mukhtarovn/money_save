@@ -9,19 +9,19 @@
    <script type="text/javascript">
       google.charts.load('current', {'packages':['gauge']});
       google.charts.setOnLoadCallback(drawChart);
-      var total = {{total_exp.sum__sum|safe}}
+      var total = {{degre_exp|safe}}
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Расход', total],
+          ['Расход%', total],
         ]);
         var options = {
           width: 200, height: 200,
           redFrom: 90, redTo: 100,
           yellowFrom:75, yellowTo: 90,
           greenFrom:30, greenTo: 75,
-          minorTicks: 10
+          minorTicks: 15
         };
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
         chart.draw(data, options);
@@ -30,12 +30,12 @@
      <script type="text/javascript">
       google.charts.load('current', {'packages':['gauge']});
       google.charts.setOnLoadCallback(drawChart);
-      var save = {{daily_save|safe}}
+      var save = {{degre_save|safe}}
       function drawChart() {
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Сохр', save],
+          ['Сохр%', save],
         ]);
 
         var options = {
@@ -61,11 +61,14 @@
             <hr class="border border-success border-3 opacity-75">
             <div class="row">
                 <div class="position-relative col">
-                    <p class="fs-5 fw-semibold ">Цель: сохранить {{monthly_save_amount}} в месяц. Для этого миниму нужно откладывать: </p>
-                    <p class="fs-5 fw-semibold">За день - <strong class="display-6 font-monospace text-danger">{{daily_save_amount}}</strong> </p>
-                    <p class="fs-5 fw-semibold ">За неделю - <strong class="display-6 font-monospace text-danger">{{weekly_save_amount}}</strong> </p>
+                    <p class="fs-5 fw-semibold ">Цель: сохранить {{monthly_save_amount}} в месяц. Для этого миниму нужно: </p>
+                    <hr>
+                    <p class="fs-5 fw-semibold">Тратить не больше - <strong class="display-6 font-monospace text-danger">{{max_daily_exp}}</strong>
+                    <hr></p>
+                    <p class="fs-5 fw-semibold">Откладывать за день - <strong class="display-6 font-monospace text-danger">{{daily_save_amount}}</strong> </p>
+                    <p class="fs-5 fw-semibold ">Откладывать за неделю - <strong class="display-6 font-monospace text-danger">{{weekly_save_amount}}</strong> </p>
                     <hr class="divider">
-                    <p class="fs-5 fw-semibold ">За год можем сохранить- <strong class="display-6 font-monospace text-danger">{{year_save_amount}}</strong> </p>
+                    <p class="fs-5 fw-semibold ">За год можем сохранить - <strong class="display-6 font-monospace text-danger">{{year_save_amount}}</strong> </p>
 
                 </div>
                 <div class="position-relative col">
