@@ -1,3 +1,4 @@
+import self as self
 from django.conf import settings
 from django.db import models
 
@@ -108,11 +109,12 @@ class DailyIncoms(models.Model):
     def __str__(self):
         return f'{self.user}'
 
+
 class FinancialStatement(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь', unique=True)
     monthly_incoms = models.PositiveIntegerField(verbose_name='Meсячный доход', default=0)
     monthly_expenses = models.PositiveIntegerField(verbose_name='Meсячный расход', default=0)
-    monthly_target = models.PositiveIntegerField(verbose_name='Сохранить', default=0)
+    monthly_target = models.PositiveIntegerField(verbose_name='Цель экономии', default=0)
 
     class Meta:
         verbose_name = 'Финасы'

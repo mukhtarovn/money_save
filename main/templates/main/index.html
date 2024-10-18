@@ -61,38 +61,7 @@
             <hr class="border border-success border-3 opacity-75">
             <div class="row">
                 <div class="position-relative col">
-                    <p class="fs-5 fw-semibold ">Цель: сохранить {{monthly_save_amount}} в месяц. Для этого миниму нужно: </p>
-                    <hr>
-                    <p class="fs-5 fw-semibold">Тратить не больше - <strong class="display-6 font-monospace text-danger">{{max_daily_exp}}</strong>
-                    <hr></p>
-                    <p class="fs-5 fw-semibold">Откладывать за день - <strong class="display-6 font-monospace text-danger">{{daily_save_amount}}</strong> </p>
-                    <p class="fs-5 fw-semibold ">Откладывать за неделю - <strong class="display-6 font-monospace text-danger">{{weekly_save_amount}}</strong> </p>
-                    <hr class="divider">
-                    <p class="fs-5 fw-semibold ">За год можем сохранить - <strong class="display-6 font-monospace text-danger">{{year_save_amount}}</strong> </p>
-
-                </div>
-                <div class="position-relative col">
-                    <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg" id="form_exp">
-                        <br>
-                        {%csrf_token%}
-                            {{dailyexp.as_p}}
-                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
-                    </form>
-                    <form action="{% url 'main' %}" method="GET" class="form-select form-select-lg mb-3 shadow-lg" id="form_inc" style="display:none">
-                             <br>
-                        {%csrf_token%}
-                            {{dailyinc.as_p}}
-                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
-                    </form>
-                    <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="form_choice_inc()">
-                              <label class="form-check-label" for="inlineRadio1">ДОХОДЫ</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="form_choice_exp()" checked>
-                              <label class="form-check-label" for="inlineRadio2">РАСХОДЫ</label>
-                            </div>
-                                <table class="table table-striped table-hover table-bordered shadow-lg p-6 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
+                    <table class="table table-striped table-hover table-bordered shadow-lg p-2 mb-2 bg-body-tertiary">
                         <thead>
                                 <th scope="col" class="table-head-expemses">РАСХОДЫ ЗА СЕГОДНЯ</th>
                                 <th scope="col" class="table-head-expemses"><a href="{%url 'addexpcat'%}">Добав. кат.</a></th>
@@ -116,7 +85,7 @@
                         </tbody>
 
                     </table>
-                                <table class="table table-striped table-hover table-bordered shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
+                    <table class="table table-striped table-hover table-bordered shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
                         <thead>
                             <tr>
                                 <th scope="col" class="head-color">ДОХОДЫ</th>
@@ -139,15 +108,49 @@
                             </tr>
                         </tbody>
                     </table>
-                    </div>
+
+                </div>
                 <div class="position-relative col">
-                <div id="chart_div" style="width: 200px; height: 120px;"></div>
+                    <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg border border-black" id="form_exp">
+                        <br>
+                        {%csrf_token%}
+                            {{dailyexp.as_p}}
+                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
+                    </form>
+                    <form action="{% url 'main' %}" method="GET" class="form-select form-select-lg mb-3 shadow-lg border border-black" id="form_inc" style="display:none">
+                             <br>
+                        {%csrf_token%}
+                            {{dailyinc.as_p}}
+                        <button class="form-control btn btn-primary" type="submit">Отправить</button>
+                    </form>
+                    <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="form_choice_inc()">
+                              <label class="form-check-label" for="inlineRadio1">ДОХОДЫ</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="form_choice_exp()" checked>
+                              <label class="form-check-label" for="inlineRadio2">РАСХОДЫ</label>
+                            </div>
+                    <div class="d-flex justify-content-center">
+                    <div id="chart_div" style="width: 200px; height: 120px;"></div>
                     <br>
                     <br>
                     <br>
                     <div id="chartik_div" style="width: 200px; height: 120px;"></div>
+                    </div>
+                    </div>
+                <div class="position-relative col">
+                    <p class="fs-5 fw-semibold ">Цель: сохранить {{monthly_save_amount.monthly_target}} в месяц. Для этого миниму нужно: </p>
+                    <hr>
+                    <p class="fs-5 fw-semibold">Тратить не больше - <strong class="display-6 font-monospace text-danger">{{max_daily_exp}}</strong>
+                    <hr></p>
+                    <p class="fs-5 fw-semibold">Откладывать за день - <strong class="display-6 font-monospace text-danger">{{daily_save_amount}}</strong> </p>
+                    <p class="fs-5 fw-semibold ">Откладывать за неделю - <strong class="display-6 font-monospace text-danger">{{weekly_save_amount}}</strong> </p>
+                    <hr class="divider">
+                    <p class="fs-5 fw-semibold ">За год можем сохранить - <strong class="display-6 font-monospace text-danger">{{year_save_amount}}</strong> </p>
 
-    </div>
+
+                    </div>
             </div>
             </div>
         </div>

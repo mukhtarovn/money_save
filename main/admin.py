@@ -63,5 +63,5 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(FinancialStatement)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['user', 'monthly_incoms', 'monthly_expenses', 'monthly_target']
+    list_display = ['id','user', 'monthly_incoms', 'monthly_expenses', 'monthly_target']
     ordering = ('user',)

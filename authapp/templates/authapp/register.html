@@ -5,7 +5,7 @@
 <div class="container position-absolute top-50 start-50 translate-middle">
     <figure class="figure border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
         <figcaption class="figure-caption"><h3>Создание профиля</H3></figcaption>
-    <form class="form-horizontal" action="{% url 'auth:register' %}" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="{% url 'auth:register' %}" method="post">
         {% csrf_token %}
         {{ register_form.as_p }}
         <br>

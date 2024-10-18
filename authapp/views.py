@@ -31,7 +31,12 @@ def register(request):
         register_form = NewUserRegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
             register_form.save()
-            return HttpResponseRedirect(reverse('auth:login'))
+            username = request.POST['username']
+            password = request.POST['password1']
+            user = auth.authenticate(username=username, password=password)
+            if user and user.is_active:
+                auth.login(request, user)
+                return HttpResponseRedirect(reverse('finstat'))
     else:
         register_form = NewUserRegisterForm()
 

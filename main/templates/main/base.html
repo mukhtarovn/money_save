@@ -35,8 +35,9 @@
               {{user|upper}}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{%url 'addinccat'%}">Редактор категорий</a></li>
-            <li><a class="dropdown-item" href="{% url 'auth:edit' %}">Редактировать</a></li>
+<!--            <li><a class="dropdown-item" href="{%url 'addinccat'%}">Редактор категорий</a></li>-->
+            <li><a class="dropdown-item" href="{% url 'auth:edit' %}">Редактировать профиль</a></li>
+            <li><a class="dropdown-item" href="{% url 'finstatedit' monthly_save_amount.pk %}">Редактор фин.данных</a></li>
               <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'auth:logout'%}">ВЫЙТИ</a></li>
           </ul>

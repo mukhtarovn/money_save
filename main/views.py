@@ -3,20 +3,22 @@ from calendar import monthrange
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic.base import View
 
 from authapp.models import NewUser
 from .models import Income, NecessaryExpenses, DailyExpenses, Category, CategoryIncomes, DailyIncoms, \
     UserCategoryExpenses, UserCategoryIncomes, FinancialStatement
 from datetime import date, datetime
-from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm
+from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm, FinancialStatementForm
 
 today = date.today().strftime('%d %B %Y')
 category_income = CategoryIncomes
 category_exp = Category
 def calculate(request):
     title = "Расчет"
-
+    monthly_save = FinancialStatement.objects.get(user=request.user)
     total_inc = Income.objects.filter(user=request.user).aggregate(Sum('sum'))
     total_exp = NecessaryExpenses.objects.filter(user=request.user).aggregate(Sum('sum'))
     try:
@@ -31,6 +33,7 @@ def calculate(request):
         "total_expenses": total_exp,
         "total_income": total_inc,
         'total_save': total_save,
+        'monthly_save_amount':monthly_save,
         'title': title,
         'simple': for_table_data(total_table(NecessaryExpenses, request))
     }
@@ -73,11 +76,14 @@ def main_page(request):
         daily_save = total_inc['sum__sum'] - total_exp['sum__sum']
     except:
         daily_save = 0
-
     monthly_save = FinancialStatement.objects.get(user=request.user)
     daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
+    try:
+        degre_save = round(daily_save / round(daily_save_amount) * 100)
+    except:
+        degre_save = 0
     max_monthly_exp = monthly_save.monthly_incoms-monthly_save.monthly_target
-    print(round(daily_save/round(daily_save_amount)*100))
+
     content = {'title': title,
                'dailyexp': dailyexp_form,
                'dailyinc': dailyinc_form,
@@ -89,11 +95,11 @@ def main_page(request):
                'daily_save': daily_save,
                'daily_save_amount': round(daily_save_amount),
                'weekly_save_amount': round(daily_save_amount)*7,
-               'monthly_save_amount': monthly_save.monthly_target,
+               'monthly_save_amount': monthly_save,
                'year_save_amount': round(daily_save_amount)*365,
                'max_daily_exp': round(max_monthly_exp/monthrange(2024, datetime.now().month)[1]),
                'degre_exp': round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100),
-               'degre_save': round(daily_save/round(daily_save_amount)*100)
+               'degre_save': degre_save
                }
     return render(request, 'main/index.html', content)
 
@@ -149,3 +155,34 @@ def for_table_data(data):
         item.append(k)
         result.append(item)
     return result
+
+
+class CreateFinStatement(CreateView):
+    model = FinancialStatement
+    form_class = FinancialStatementForm
+    template_name = 'main/fin_statement_create.html'
+    success_url = reverse_lazy('main')
+
+    def form_valid(self, form):
+        print(self.request.user)
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Финансовая ведомость'
+
+        return context
+
+class EditFinstate(UpdateView):
+    model = FinancialStatement
+    fields = ['monthly_incoms', 'monthly_expenses', 'monthly_target']
+    template_name = 'main/fin_statement_edit.html'
+    success_url = reverse_lazy('main')
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'финансы/редактирование'
+        context['monthly_save_amount'] = FinancialStatement.objects.all()
+
+        return context
