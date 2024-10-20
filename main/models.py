@@ -1,35 +1,34 @@
-import self as self
 from django.conf import settings
 from django.db import models
 
 from authapp.models import NewUser
 
 
+# class Category(models.Model):
+#     name = models.CharField(verbose_name='название', max_length=64, unique=True)
+#     description = models.TextField(verbose_name='описание', blank=True, null=True)
+#
+#     class Meta:
+#         verbose_name = 'Категория расхода'
+#         verbose_name_plural = 'Категории расходов'
+#
+#     def __str__(self):
+#         return self.name
+
+# class CategoryIncomes(models.Model):
+#     name = models.CharField(verbose_name='название', max_length=64, unique=True)
+#     description = models.TextField(verbose_name='описание', blank=True, null=True)
+#
+#     class Meta:
+#         verbose_name = 'Категория дохода'
+#         verbose_name_plural = 'Категории доходов'
+#
+#     def __str__(self):
+#         return f'{self.name}'
+
 class Category(models.Model):
-    name = models.CharField(verbose_name='название', max_length=64, unique=True)
-    description = models.TextField(verbose_name='описание', blank=True, null=True)
-
-    class Meta:
-        verbose_name = 'Категория расхода'
-        verbose_name_plural = 'Категории расходов'
-
-    def __str__(self):
-        return self.name
-
-class CategoryIncomes(models.Model):
-    name = models.CharField(verbose_name='название', max_length=64, unique=True)
-    description = models.TextField(verbose_name='описание', blank=True, null=True)
-
-    class Meta:
-        verbose_name = 'Категория дохода'
-        verbose_name_plural = 'Категории доходов'
-
-    def __str__(self):
-        return f'{self.name}'
-
-class UserCategoryExpenses(models.Model):
     user = models.ForeignKey(NewUser, on_delete=models.CASCADE, verbose_name='Пользователь')
-    name = models.CharField(verbose_name='Название', max_length=64, unique=True)
+    name = models.CharField(verbose_name='Название', max_length=64)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     time_create = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
 
@@ -40,9 +39,10 @@ class UserCategoryExpenses(models.Model):
     def __str__(self):
         return self.name
 
-class UserCategoryIncomes(models.Model):
+
+class CategoryIncomes(models.Model):
     user = models.ForeignKey(NewUser, on_delete=models.CASCADE, verbose_name='Пользователь')
-    name = models.CharField(verbose_name='Название', max_length=64, unique=True)
+    name = models.CharField(verbose_name='Название', max_length=64)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     time_create = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
 

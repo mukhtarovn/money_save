@@ -25,17 +25,16 @@
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawChart);
-
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['День недели', 'Доходы', 'Расходы'],
-          ['Пн', 32, 400],
-          ['Вт', 80, 460],
-          ['Ср', 660, 90],
-          ['Чт', 90, 540],
-          ['Пт', 100, 540],
-          ['Сб', 23, 540],
-          ['Вс', 90, 540],
+          ['{{sixdaybefore|safe}}', {{sixdaybefore_exp.sum__sum|safe}}, {{sixdaybefore_inc.sum__sum|safe}}],
+          ['{{fivedaybefore|safe}}', {{fivedaybefore_exp.sum__sum|safe}}, {{fivedaybefore_inc.sum__sum|safe}}],
+          ['{{fourdaybefore|safe}}', {{fourdaybefore_exp.sum__sum|safe}}, {{fourdaybefore_inc.sum__sum|safe}}],
+          ['{{threedaybefore|safe}}', {{threedaybefore_exp.sum__sum|safe}}, {{threedaybefore_inc.sum__sum|safe}}],
+          ['{{twodaybefore|safe}}', {{twodaybefore_exp.sum__sum|safe}}, {{twodaybefore_inc.sum__sum|safe}}],
+          ['{{yestorday|safe}}', {{yestorday_exp.sum__sum|safe}}, {{yestorday_inc.sum__sum|safe}}],
+          ['{{today|safe}}', {{today_exp.sum__sum|safe}}, {{today_inc.sum__sum|safe}}],
         ]);
 
         var options = {

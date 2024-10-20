@@ -5,6 +5,8 @@ from authapp.forms import NewUserLoginForm, NewUserRegisterForm, NewUserEditForm
 from django.contrib import auth
 from django.urls import reverse
 
+from main.models import Category, CategoryIncomes
+
 
 def login(request):
     title = 'вход'
@@ -36,9 +38,11 @@ def register(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
+                create_category(request)
                 return HttpResponseRedirect(reverse('finstat'))
     else:
         register_form = NewUserRegisterForm()
+
 
     content = {'title': title, 'register_form': register_form}
     return render(request, 'authapp/register.html', content)
@@ -56,3 +60,23 @@ def edit(request):
 
 
     return render(request,'authapp/edit.html', content)
+
+
+class UserCategoryIncomes(object):
+    pass
+
+
+def create_category(request):
+    Category.objects.bulk_create([
+        Category(user=request.user, name='АРЕНДА'),
+        Category(user=request.user, name='ИПОТЕКА'),
+        Category(user=request.user, name='КРЕДИТЫ'),
+        Category(user=request.user, name='КОМУНАЛЬНЫЕ ПЛАТЕЖИ'),
+        Category(user=request.user, name='ТЕЛЕФОНЫ/СВЯЗЬ'),
+        Category(user=request.user, name='КАФЕ/РЕСТОРАНЫ'),
+        Category(user=request.user, name='ПРОДУКТЫ ПИТАНИЯ'),
+    ])
+    CategoryIncomes.objects.bulk_create([
+        CategoryIncomes(user=request.user, name='ЗАРПЛАТА'),
+        CategoryIncomes(user=request.user, name='ДОПОЛНИТЕЛЬНЫЙ ДОХОД'),
+    ])

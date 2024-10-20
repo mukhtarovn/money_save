@@ -1,5 +1,6 @@
 from calendar import monthrange
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -9,11 +10,12 @@ from django.views.generic.base import View
 
 from authapp.models import NewUser
 from .models import Income, NecessaryExpenses, DailyExpenses, Category, CategoryIncomes, DailyIncoms, \
-    UserCategoryExpenses, UserCategoryIncomes, FinancialStatement
-from datetime import date, datetime
+    FinancialStatement
+from datetime import date, datetime, timedelta
 from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm, FinancialStatementForm
 
-today = date.today().strftime('%d %B %Y')
+today = datetime.now().date()
+
 category_income = CategoryIncomes
 category_exp = Category
 def calculate(request):
@@ -25,9 +27,52 @@ def calculate(request):
         total_save = total_inc['sum__sum'] - total_exp['sum__sum']
     except:
         total_save = 0
+    yestorday = today - timedelta(days=1)
+    twodaybefore = today - timedelta(days=2)
+    three_day = today - timedelta(days=3)
+    four_day = today - timedelta(days=4)
+    five_day = today - timedelta(days=5)
+    six_day = today - timedelta(days=6)
+    inc_two_day = DailyIncoms.objects.filter(user=request.user, time_create__day=twodaybefore.day).aggregate(Sum("sum"))
+    if inc_two_day['sum__sum'] == None:
+        inc_two_day['sum__sum'] = 0
+    exp_two_day = DailyExpenses.objects.filter(user=request.user, time_create__day=twodaybefore.day).aggregate(Sum("sum"))
+    if exp_two_day['sum__sum'] == None:
+        exp_two_day['sum__sum'] = 0
+    inc_three_day = DailyIncoms.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if inc_three_day['sum__sum'] == None:
+        inc_three_day['sum__sum'] = 0
+    exp_three_day = DailyExpenses.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if exp_three_day['sum__sum'] == None:
+        exp_three_day['sum__sum'] = 0
+    inc_four_day = DailyIncoms.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if inc_four_day['sum__sum'] == None:
+        inc_four_day['sum__sum'] = 0
+    exp_four_day = DailyExpenses.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if exp_four_day['sum__sum'] == None:
+        exp_four_day['sum__sum'] = 0
+    inc_five_day = DailyIncoms.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if inc_five_day['sum__sum'] == None:
+        inc_five_day['sum__sum'] = 0
+    exp_five_day = DailyExpenses.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if exp_five_day['sum__sum'] == None:
+        exp_five_day['sum__sum'] = 0
+    inc_six_day = DailyIncoms.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if inc_six_day['sum__sum'] == None:
+        inc_six_day['sum__sum'] = 0
+    exp_six_day = DailyExpenses.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
+    if exp_six_day['sum__sum'] == None:
+        exp_six_day['sum__sum'] = 0
+
     content = {
         "users": NewUser.objects.all(),
-        "today": date.today().strftime('%B'),
+        "today": today,
+        "yestorday": yestorday,
+        "twodaybefore": twodaybefore,
+        "threedaybefore": three_day,
+        "fourdaybefore": four_day,
+        "fivedaybefore": five_day,
+        "sixdaybefore": six_day,
         "incomes": total_table(Income, request),
         "expenses": total_table(NecessaryExpenses, request),
         "total_expenses": total_exp,
@@ -35,14 +80,30 @@ def calculate(request):
         'total_save': total_save,
         'monthly_save_amount':monthly_save,
         'title': title,
-        'simple': for_table_data(total_table(NecessaryExpenses, request))
+        'simple': for_table_data(total_table(NecessaryExpenses, request)),
+        'today_exp': DailyExpenses.objects.filter(user=request.user, time_create__day=datetime.now().day).aggregate(Sum("sum")),
+        'today_inc': DailyIncoms.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum("sum")),
+        'yestorday_exp': DailyExpenses.objects.filter(user=request.user, time_create__day=yestorday.day).aggregate(Sum("sum")),
+        'yestorday_inc': DailyIncoms.objects.filter(user=request.user, time_create__day=yestorday.day).aggregate(Sum("sum")),
+        'twodaybefore_exp': exp_two_day,
+        'twodaybefore_inc': inc_two_day,
+        'threedaybefore_exp': exp_three_day,
+        'threedaybefore_inc': inc_three_day,
+        'fourdaybefore_exp': exp_four_day,
+        'fourdaybefore_inc': inc_four_day,
+        'fivedaybefore_exp': exp_five_day,
+        'fivedaybefore_inc': inc_five_day,
+        'sixdaybefore_exp': exp_six_day,
+        'sixdaybefore_inc': inc_six_day,
     }
     return render(request, 'main/calculate.html', content)
 
+@login_required
 def main_page(request):
     title = 'Траты за день'
+    user = request.user
 
-    dailyexp_form = DailyExpForm(request.POST)
+    dailyexp_form = DailyExpForm(request.POST, user=user)
     if request.method == "POST" and dailyexp_form.is_valid():
         DailyExpenses.objects.create(user=request.user, sum=dailyexp_form.cleaned_data['sum'],
                                      category=dailyexp_form.cleaned_data['category'],
@@ -52,8 +113,9 @@ def main_page(request):
                                          description = dailyexp_form.cleaned_data['description'])
         return HttpResponseRedirect(reverse('main'))
     else:
-        dailyexp_form = DailyExpForm()
-    dailyinc_form = DailyIncForm(request.GET)
+        dailyexp_form = DailyExpForm(user=user)
+
+    dailyinc_form = DailyIncForm(request.GET, user=user)
     if request.method == "GET" and dailyinc_form.is_valid():
         DailyIncoms.objects.create(user=request.user, sum=dailyinc_form.cleaned_data['sum'],
                                      category=dailyinc_form.cleaned_data['category'],
@@ -63,7 +125,7 @@ def main_page(request):
                               description = dailyinc_form.cleaned_data['description'])
         return HttpResponseRedirect(reverse('main'))
     else:
-        dailyinc_form = DailyIncForm()
+        dailyinc_form = DailyIncForm(user=user)
 
     total_inc=DailyIncoms.objects.filter(user=request.user).aggregate(Sum('sum'))
     total_exp=DailyExpenses.objects.filter(user=request.user).aggregate(Sum('sum'))
@@ -76,6 +138,7 @@ def main_page(request):
         daily_save = total_inc['sum__sum'] - total_exp['sum__sum']
     except:
         daily_save = 0
+
     monthly_save = FinancialStatement.objects.get(user=request.user)
     daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
     try:
@@ -83,6 +146,8 @@ def main_page(request):
     except:
         degre_save = 0
     max_monthly_exp = monthly_save.monthly_incoms-monthly_save.monthly_target
+
+    # statistic_today = DailyExpenses.objects.filter(time_create=today)
 
     content = {'title': title,
                'dailyexp': dailyexp_form,
@@ -99,9 +164,10 @@ def main_page(request):
                'year_save_amount': round(daily_save_amount)*365,
                'max_daily_exp': round(max_monthly_exp/monthrange(2024, datetime.now().month)[1]),
                'degre_exp': round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100),
-               'degre_save': degre_save
+               'degre_save': degre_save,
                }
     return render(request, 'main/index.html', content)
+
 
 def total_table(model, request):
     table_category_summ = {}
@@ -119,7 +185,7 @@ def add_incomes_category(request):
     if request.method == "POST":
         add_incomes_category_form = AddIncCategoryForm(request.POST)
         if add_incomes_category_form.is_valid():
-            UserCategoryIncomes.objects.create(user=request.user, name=add_incomes_category_form.cleaned_data['name'],
+            CategoryIncomes.objects.create(user=request.user, name=add_incomes_category_form.cleaned_data['name'],
                                                description=add_incomes_category_form.cleaned_data['description'])
             return HttpResponseRedirect(reverse('addinccat'))
     else:
@@ -134,7 +200,7 @@ def add_expenses_category(request):
     if request.method == "POST":
         add_expenses_category_form = AddExpCategoryForm(request.POST)
         if add_expenses_category_form.is_valid():
-            UserCategoryExpenses.objects.create(user=request.user, name=add_expenses_category_form.cleaned_data['name'],
+            Category.objects.create(user=request.user, name=add_expenses_category_form.cleaned_data['name'],
                                                 description=add_expenses_category_form.cleaned_data['description'])
             return HttpResponseRedirect(reverse('addexpcat'))
     else:
@@ -155,6 +221,7 @@ def for_table_data(data):
         item.append(k)
         result.append(item)
     return result
+
 
 
 class CreateFinStatement(CreateView):

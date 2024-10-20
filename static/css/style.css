@@ -1,6 +1,3 @@
-.table {
-    width: fixed;
-}
 
 th.head-color {
     background-color: #41fa53;
@@ -389,3 +386,8 @@ h1#title {
         width: 100%;
     }
 }
+
+.main_table{
+    table-layout: fixed;
+    width: 30px;
+  }

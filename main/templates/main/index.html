@@ -85,7 +85,7 @@
                         </tbody>
 
                     </table>
-                    <table class="table table-striped table-hover table-bordered shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="margin-top:50px">
+                    <table class="table table-striped table-hover table-bordered shadow-lg p-3 mb-5 bg-body-tertiary rounded table-responsive" style="margin-top:50px">
                         <thead>
                             <tr>
                                 <th scope="col" class="head-color">ДОХОДЫ</th>
@@ -111,7 +111,7 @@
 
                 </div>
                 <div class="position-relative col">
-                    <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg border border-black" id="form_exp">
+                    <form action="{% url 'main' %}" method="post" class="form-select form-select-lg mb-3 shadow-lg border border-black " id="form_exp">
                         <br>
                         {%csrf_token%}
                             {{dailyexp.as_p}}
@@ -151,6 +151,8 @@
 
 
                     </div>
+                {%for i in today_active%}
+                {%endfor%}
             </div>
             </div>
         </div>
