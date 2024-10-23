@@ -3,29 +3,6 @@ from django.db import models
 
 from authapp.models import NewUser
 
-
-# class Category(models.Model):
-#     name = models.CharField(verbose_name='название', max_length=64, unique=True)
-#     description = models.TextField(verbose_name='описание', blank=True, null=True)
-#
-#     class Meta:
-#         verbose_name = 'Категория расхода'
-#         verbose_name_plural = 'Категории расходов'
-#
-#     def __str__(self):
-#         return self.name
-
-# class CategoryIncomes(models.Model):
-#     name = models.CharField(verbose_name='название', max_length=64, unique=True)
-#     description = models.TextField(verbose_name='описание', blank=True, null=True)
-#
-#     class Meta:
-#         verbose_name = 'Категория дохода'
-#         verbose_name_plural = 'Категории доходов'
-#
-#     def __str__(self):
-#         return f'{self.name}'
-
 class Category(models.Model):
     user = models.ForeignKey(NewUser, on_delete=models.CASCADE, verbose_name='Пользователь')
     name = models.CharField(verbose_name='Название', max_length=64)
@@ -61,8 +38,8 @@ class Income(models.Model):
     time_create = models.DateTimeField(verbose_name='ДАТА СОЗДАНИЯ', auto_now_add=True, null=True)
     time_upate = models.DateTimeField(verbose_name='ДАТА ОБНОВЛЕНИЯ', auto_now=True, null=True)
     class Meta:
-        verbose_name = 'Доход за месяц'
-        verbose_name_plural = 'Доходы за месяц'
+        verbose_name = 'Доход'
+        verbose_name_plural = 'Доходы'
 
     def __str__(self):
         return f"{self.user}"
@@ -76,38 +53,38 @@ class NecessaryExpenses(models.Model):
     time_create = models.DateTimeField(verbose_name='ДАТА СОЗДАНИЯ', auto_now_add=True)
     time_update = models.DateTimeField(verbose_name='ДАТА ОБНОВЛЕНИЯ', auto_now=True)
     class Meta:
-        verbose_name = 'Расход за месяц'
-        verbose_name_plural = 'Расходы за месяц'
+        verbose_name = 'Расход'
+        verbose_name_plural = 'Расходы'
     def __str__(self):
         return F'{self.user}'
 
-class DailyExpenses(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ', default=1)
-    sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
-    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True)
-    time_create = models.DateTimeField(verbose_name='ДАТА ОПЕРАЦИИ', auto_now_add=True)
+# class DailyExpenses(models.Model):
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ', default=1)
+#     sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
+#     description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True)
+#     time_create = models.DateTimeField(verbose_name='ДАТА ОПЕРАЦИИ', auto_now_add=True)
+#
+#     class Meta:
+#         verbose_name = 'Расход за день'
+#         verbose_name_plural = 'Расходы за день'
+#
+#     def __str__(self):
+#         return f'{self.user}'
 
-    class Meta:
-        verbose_name = 'Расход за день'
-        verbose_name_plural = 'Расходы за день'
-
-    def __str__(self):
-        return f'{self.user}'
-
-class DailyIncoms(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    category = models.ForeignKey(CategoryIncomes, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ', default=1)
-    sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
-    description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True, null=True)
-    time_create = models.DateTimeField(verbose_name='ДАТА ОПЕРАЦИИ', auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'Доход за день'
-        verbose_name_plural = 'Доходы за день'
-
-    def __str__(self):
-        return f'{self.user}'
+# class DailyIncoms(models.Model):
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     category = models.ForeignKey(CategoryIncomes, on_delete=models.CASCADE, verbose_name='КАТЕГОРИЯ', default=1)
+#     sum = models.PositiveIntegerField(verbose_name='СУММА', default=0, blank=True)
+#     description = models.TextField(verbose_name='ОПИСАНИЕ', blank=True, null=True)
+#     time_create = models.DateTimeField(verbose_name='ДАТА ОПЕРАЦИИ', auto_now_add=True)
+#
+#     class Meta:
+#         verbose_name = 'Доход за день'
+#         verbose_name_plural = 'Доходы за день'
+#
+#     def __str__(self):
+#         return f'{self.user}'
 
 
 class FinancialStatement(models.Model):

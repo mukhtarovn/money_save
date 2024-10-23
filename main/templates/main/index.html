@@ -17,7 +17,7 @@
           ['Расход%', total],
         ]);
         var options = {
-          width: 200, height: 200,
+          width: 150, height: 150,
           redFrom: 90, redTo: 100,
           yellowFrom:75, yellowTo: 90,
           greenFrom:30, greenTo: 75,
@@ -39,7 +39,7 @@
         ]);
 
         var options = {
-          width: 200, height: 200,
+          width: 150, height: 150,
           redFrom: 0, redTo: 20,
           yellowFrom:20, yellowTo: 50,
           greenFrom:50, greenTo: 100,
@@ -57,9 +57,15 @@
     <body>
         {%block content%}
         <div class="container-sm clearfix">
-            <p class="fs-3 fw-semibold ">ВСЕГО СОХРАНИЛИ СЕГОДНЯ: <strong class="display-1 font-monospace text-primary">{{daily_save}}</strong> </p>
+            <dev class="d-flex justify-content m-3">
+            <p class="fs-3 fw-semibold m-2">МОЖНО ПОТРАТИТЬ СЕГОДНЯ: <strong class="display-1 font-monospace text-primary">{{daily_exp_amount}}</strong> </p>
+                <div id="chart_div" style="width: 150px; height: 120px; margin-left: 20%; margin-bottom:20px"></div>
+                <br>
+                <div id="chartik_div" style="width: 150px; height: 120px;"></div>
+            </dev>
             <hr class="border border-success border-3 opacity-75">
             <div class="row">
+
                 <div class="position-relative col">
                     <table class="table table-striped table-hover table-bordered shadow-lg p-2 mb-2 bg-body-tertiary">
                         <thead>

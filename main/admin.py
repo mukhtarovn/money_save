@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from main.models import Income, NecessaryExpenses, DailyExpenses, Category, DailyIncoms, CategoryIncomes, \
+from main.models import Income, NecessaryExpenses, Category, CategoryIncomes, \
  FinancialStatement
 
 
@@ -25,17 +25,17 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ['user', 'category']
 
 
-@admin.register(DailyExpenses)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ['id','user','category','sum', 'description', 'time_create']
-    ordering = ('user',)
-    search_fields = ['user', 'category', 'sum']\
+# @admin.register(DailyExpenses)
+# class PostAdmin(admin.ModelAdmin):
+#     list_display = ['id','user','category','sum', 'description', 'time_create']
+#     ordering = ('user',)
+#     search_fields = ['user', 'category', 'sum']\
 
-@admin.register(DailyIncoms)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ['id','user','category','sum', 'description', 'time_create']
-    ordering = ('user',)
-    search_fields = ['user', 'category', 'sum']
+# @admin.register(DailyIncoms)
+# class PostAdmin(admin.ModelAdmin):
+#     list_display = ['id','user','category','sum', 'description', 'time_create']
+#     ordering = ('user',)
+#     search_fields = ['user', 'category', 'sum']
 
 @admin.register(Category)
 class PostAdmin(admin.ModelAdmin):
