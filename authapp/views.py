@@ -12,6 +12,8 @@ def login(request):
     title = 'вход'
 
     login_form = NewUserLoginForm(data=request.POST)
+
+    next_url= request.GET.get('next', '')
     if request.method == 'POST':
         username = request.POST ['username']
         password = request.POST ['password']
@@ -20,7 +22,7 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect(reverse('main'))
 
-    content = {'title': title, 'login_form': login_form}
+    content = {'title': title, 'login_form': login_form, 'next': next_url}
     return render(request, 'authapp/login.html', content)
 
 def logout(request):

@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{%block menu%}
+<nav class="navbar" style="background-color: #e3f2fd;">
+     <form class="container-fluid justify-content-end">
+    <a class="navbar-brand" href="#">
+        <h1>Редактор категорий</h1>
+        <a type="button" class="btn btn-outline-dark" href="/">ГЛАВНАЯ</a>
+        <a type="button" class="btn btn-outline-dark" href="{% url 'calculate'%}">ПОДСЧЕТ</a>
+    </a>
+   </form>
+</nav>
+{%endblock%}
+{%block content%}
+<div class="border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
+    <table class="table table-light">
+        <h5>Категории расходов</h5>
+        <hr>
+        {%for object in objects%}
+  <tbody>
+    <tr>
+      <th scope="row" class="fit-content">{{object|upper}}</th>
+      <td>---------------</td>
+      <td><a href="{%url 'category_delete' object.pk %}"><i class="bi bi-trash3"></i></a></td>
+    </tr>
+        {%endfor%}
+  </tbody>
+</table>
+     <table class="table table-light">
+        <h5>Категории доходов</h5>
+        <hr>
+        {%for income in incomes%}
+  <tbody>
+    <tr>
+      <th scope="row" class="fit-content">{{income|upper}}</th>
+      <th>---------------</th>
+      <td><a href="{%url 'income_category_delete' income.pk %}"><i class="bi bi-trash3"></i></i></a></td>
+    </tr>
+        {%endfor%}
+  </tbody>
+    </div>
+<div>
+    </div>
+{%endblock%}

@@ -391,3 +391,7 @@ h1#title {
     table-layout: fixed;
     width: 30px;
   }
+
+.fit-content {
+  width: fit-content;
+}
