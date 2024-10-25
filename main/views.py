@@ -1,5 +1,7 @@
 from calendar import monthrange
 
+from django.http import JsonResponse
+import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
@@ -17,6 +19,17 @@ today = datetime.now().date()
 
 category_income = CategoryIncomes
 category_exp = Category
+
+def save_time(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_time = data.get('user_time', None)
+        if user_time:
+            # Обрабатывайте полученное время, сохраняйте в базе данных или выполняйте другие действия
+            print(f"Время пользователя: {user_time[0:2]}")
+            today = user_time[0:2]
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 @login_required
 def calculate(request):
@@ -118,12 +131,13 @@ def calculate(request):
 def main_page(request):
     title = 'Траты за день'
     user = request.user
-
     dailyexp_form = DailyExpForm(request.POST, user=user)
+    monthly_exp=FinancialStatement.objects.get(user=user)
     if request.method == "POST" and dailyexp_form.is_valid():
         NecessaryExpenses.objects.create(user=request.user, sum=dailyexp_form.cleaned_data['sum'],
                                      category=dailyexp_form.cleaned_data['category'],
                                          description = dailyexp_form.cleaned_data['description'])
+        FinancialStatement.objects.update(user=request.user, monthly_expenses=monthly_exp.monthly_expenses-dailyexp_form.cleaned_data['sum'])
         return HttpResponseRedirect(reverse('main'))
     else:
         dailyexp_form = DailyExpForm(user=user)
@@ -152,13 +166,16 @@ def main_page(request):
 
     monthly_save = FinancialStatement.objects.get(user=request.user)
     daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
-    try:
-        degre_save = round(daily_save / round(daily_save_amount) * 100)
-    except:
-        degre_save = 0
-    max_monthly_exp = monthly_save.monthly_incoms-monthly_save.monthly_target
+
+    max_monthly_exp = monthly_save.monthly_expenses#monthly_save.monthly_incoms-monthly_save.monthly_target
     max_daily_exp = round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])
     different_maxexp_daylyexp= max_daily_exp-total_exp['sum__sum']
+    try:
+        degre_save = round(total_exp['sum__sum']/max_monthly_exp*100)
+        print(total_exp['sum__sum'])
+        print(max_monthly_exp)
+    except:
+        degre_save = 0
 
     content = {'title': title,
                'dailyexp': dailyexp_form,

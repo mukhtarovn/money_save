@@ -17,4 +17,5 @@ urlpatterns = [
     path('category_list/', main.UserCategory.as_view(), name="category_list"),
     path('category_del/<int:pk>', main.user_category_delete , name="category_delete"),
     path('inccategory_del/<int:pk>', main.user_income_category_delete , name="income_category_delete"),
+    path('save-time/', main.save_time, name='save_time'),
 ]
