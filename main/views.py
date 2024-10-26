@@ -132,12 +132,13 @@ def main_page(request):
     title = 'Траты за день'
     user = request.user
     dailyexp_form = DailyExpForm(request.POST, user=user)
-    monthly_exp=FinancialStatement.objects.get(user=user)
     if request.method == "POST" and dailyexp_form.is_valid():
         NecessaryExpenses.objects.create(user=request.user, sum=dailyexp_form.cleaned_data['sum'],
                                      category=dailyexp_form.cleaned_data['category'],
                                          description = dailyexp_form.cleaned_data['description'])
-        FinancialStatement.objects.update(user=request.user, monthly_expenses=monthly_exp.monthly_expenses-dailyexp_form.cleaned_data['sum'])
+        user_fin_state = FinancialStatement.objects.filter(user=request.user)
+        monthly_expenses=FinancialStatement.objects.get(user=request.user)
+        user_fin_state.update(expenses_live=monthly_expenses.expenses_live-dailyexp_form.cleaned_data['sum'])
         return HttpResponseRedirect(reverse('main'))
     else:
         dailyexp_form = DailyExpForm(user=user)
@@ -165,17 +166,20 @@ def main_page(request):
         daily_save = 0
 
     monthly_save = FinancialStatement.objects.get(user=request.user)
+
     daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
 
-    max_monthly_exp = monthly_save.monthly_expenses#monthly_save.monthly_incoms-monthly_save.monthly_target
+    max_monthly_exp = monthly_save.expenses_live#monthly_save.monthly_incoms-monthly_save.monthly_target
     max_daily_exp = round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])
     different_maxexp_daylyexp= max_daily_exp-total_exp['sum__sum']
     try:
         degre_save = round(total_exp['sum__sum']/max_monthly_exp*100)
-        print(total_exp['sum__sum'])
-        print(max_monthly_exp)
     except:
         degre_save = 0
+    try:
+        degre_exp=round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100)
+    except ZeroDivisionError:
+        degre_exp=0
 
     content = {'title': title,
                'dailyexp': dailyexp_form,
@@ -191,7 +195,7 @@ def main_page(request):
                'monthly_save_amount': monthly_save,
                'year_save_amount': round(daily_save_amount)*365,
                'max_daily_exp': max_daily_exp,
-               'degre_exp': round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100),
+               'degre_exp': degre_exp,
                'degre_save': degre_save,
                'daily_exp_amount': different_maxexp_daylyexp
                }
@@ -200,9 +204,14 @@ def main_page(request):
 
 def total_table(model, request):
     table_category_summ = {}
-    for i in range(category_exp.objects.all().count()):
-        res = model.filter(category=i + 1).first()
-        res_sum = model.filter(category=i + 1).aggregate(Sum("sum"))
+    cat=[]
+    for k in Category.objects.filter(user=request.user):
+        cat.append(k.name)
+    for c in CategoryIncomes.objects.filter(user=request.user):
+        cat.append(c.name)
+    for i in cat:
+        res = model.filter(category__name=i).first()
+        res_sum = model.filter(category__name=i).aggregate(Sum("sum"))
         try:
             table_category_summ[res.category.name] = res_sum['sum__sum']
         except:
@@ -263,27 +272,6 @@ def user_income_category_delete(request, pk):
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-# class UserCategoryDelete(DeleteView):
-#     model= Category
-#     template_name = 'main/category_list.html'
-#     success_url = reverse_lazy('category_list')
-#
-#     def get_context_data(self,*args, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Список категорий'
-#         context['objects'] = Category.objects.filter(user=self.request.user)
-#         context['incomes'] = CategoryIncomes.objects.filter(user=self.request.user)
-#
-#     def delete(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         print(self.object)
-#         success_url = self.get_success_url()
-#         self.object.delete()
-#
-#         return HttpResponseRedirect(success_url)
-#     reverse_lazy('category_list')
-
-
 
 def for_table_data(data):
     result = [['Task', 'Hours per Day'],]
@@ -302,13 +290,19 @@ class CreateFinStatement(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.expenses_live=form.instance.monthly_expenses
         return super().form_valid(form)
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Финансовая ведомость'
-
         return context
+
+def copy_col_statement(request):
+    user_fin=FinancialStatement.objects.filter(user=request.id)
+    copy_date = user_fin.monthly_expenses
+    user_fin.update(expenses_live=copy_date)
+    return user_fin
 
 class EditFinstate(UpdateView):
     model = FinancialStatement
