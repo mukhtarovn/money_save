@@ -15,7 +15,7 @@ from .models import Income, NecessaryExpenses, Category, CategoryIncomes, \
 from datetime import datetime, timedelta
 from .forms import DailyExpForm, DailyIncForm, AddIncCategoryForm, AddExpCategoryForm, FinancialStatementForm
 
-today = datetime.now()#.date()
+today = datetime.now().date()
 
 category_income = CategoryIncomes
 category_exp = Category
