@@ -12,6 +12,8 @@
 {%endblock%}
 {%block content%}
 <div class="border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
+     <div class="text-center">
+        <img src="/static/img/logo.webp" alt="Logo" width="100" height="100">
     <table class="table table-light">
         <h5>Категории расходов</h5>
         <hr>
@@ -25,7 +27,7 @@
         {%endfor%}
   </tbody>
 </table>
-     <table class="table table-light">
+    <table class="table table-light">
         <h5>Категории доходов</h5>
         <hr>
         {%for income in incomes%}
@@ -37,7 +39,9 @@
     </tr>
         {%endfor%}
   </tbody>
-    </div>
 <div>
     </div>
 {%endblock%}
+    </table>
+     </div>
+</div>

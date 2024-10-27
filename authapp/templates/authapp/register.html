@@ -4,6 +4,8 @@
 {% block content %}
 <div class="container position-absolute top-50 start-50 translate-middle">
     <figure class="figure border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
+        <div class="text-center">
+        <img src="{%static 'img/logo.webp'%}" alt="Logo" width="100" height="100">
         <figcaption class="figure-caption"><h3>Создание профиля</H3></figcaption>
     <form class="form-horizontal" action="{% url 'auth:register' %}" method="post">
         {% csrf_token %}
@@ -11,7 +13,8 @@
         <br>
         <input class="form-control btn btn-success" type="submit" value="Зарегистрироваться">
     </form>
-        <a href="{% url 'main' %}" class="">на главную</a>
+        <a href="{% url 'main' %}">на главную</a>
+        </div>
     </figure>
 </div>
 {% endblock %}

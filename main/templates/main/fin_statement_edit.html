@@ -8,7 +8,10 @@
 <body>
 {%block content%}
 <figure class="figure border border-success p-2 mb-2 position-absolute top-50 start-50 translate-middle">
+     <div class="text-center">
+        <img src="{%static 'img/logo.webp'%}" alt="Logo" width="100" height="100">
         <figcaption class="figure-caption"><h4>Редактирование<br>Финансовая ведомость</H4></figcaption>
+     </div>
 <form method="post" class="form-horizontal" action="">
     {% csrf_token %}
    {{form.as_p}}
