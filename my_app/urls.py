@@ -12,6 +12,7 @@ urlpatterns = [
     path('add_inc_cat/', main.add_incomes_category, name='addinccat'),
     path('add_exp_cat/', main.add_expenses_category, name='addexpcat'),
     path('auth/', include('authapp.urls', namespace='auth')),
+    path('reports/', include('reports.urls', namespace='reports')),
     path('fin_statement/', main.CreateFinStatement.as_view(), name="finstat"),
     path('fin_statement_edit/<pk>', main.EditFinstate.as_view(), name="finstatedit"),
     path('category_list/', main.UserCategory.as_view(), name="category_list"),

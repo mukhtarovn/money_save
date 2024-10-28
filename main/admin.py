@@ -13,17 +13,22 @@ from main.models import Income, NecessaryExpenses, Category, CategoryIncomes, \
 class PostAdmin(admin.ModelAdmin):
     list_display = ['user', 'category','sum','description', 'time_create']
     ordering = ('user',)
-    # search_fields = ['last_name', 'first_name']
-    # list_filter = (
-    #     ('user', admin.EmptyFieldListFilter),
-    #     ('income', admin.EmptyFieldListFilter),
-    # )
+    search_fields = ['user', 'time_create']
+    list_filter = (
+        ('user', admin.EmptyFieldListFilter),
+        ('category', admin.EmptyFieldListFilter),
+        ('time_create', admin.EmptyFieldListFilter),
+    )
 @admin.register(NecessaryExpenses)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['user', 'category','sum','description', 'time_create', 'time_update']
     ordering = ('user',)
     search_fields = ['user', 'category']
-
+    list_filter = (
+        ('user', admin.EmptyFieldListFilter),
+        ('category', admin.EmptyFieldListFilter),
+        ('time_create', admin.EmptyFieldListFilter),
+    )
 
 # @admin.register(DailyExpenses)
 # class PostAdmin(admin.ModelAdmin):
@@ -46,16 +51,6 @@ class PostAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'description', 'user']
     ordering = ('name',)
-
-# @admin.register(UserCategoryExpenses)
-# class PostAdmin(admin.ModelAdmin):
-#     list_display = ['user', 'name', 'description']
-#     ordering = ('name',)
-#
-# @admin.register(UserCategoryIncomes)
-# class PostAdmin(admin.ModelAdmin):
-#     list_display = ['user', 'name', 'description']
-#     ordering = ('name',)
 
 @admin.register(FinancialStatement)
 class PostAdmin(admin.ModelAdmin):

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2i(^(qirtw0a__xs^4saf%_e_^i@&-!o_v6qn1vqfj^%k1*nv4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'authapp',
+    'reports',
 ]
 
 MIDDLEWARE = [
@@ -76,16 +77,17 @@ WSGI_APPLICATION = 'my_app.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
     # 'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': 'geekshop',
-    #         'USER': 'nariman',
-    #         'PASSWORD': 'sarvan030511',
-    #     }
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'geekshop',
+            'USER': 'django',
+            'PASSWORD': 'sarvan030511',
+            'HOST': 'localhost',
+        }
 }
 
 

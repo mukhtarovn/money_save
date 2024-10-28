@@ -224,7 +224,7 @@ def add_incomes_category(request):
     if request.method == "POST":
         add_incomes_category_form = AddIncCategoryForm(request.POST)
         if add_incomes_category_form.is_valid():
-            CategoryIncomes.objects.create(user=request.user, name=add_incomes_category_form.cleaned_data['name'],
+            CategoryIncomes.objects.create(user=request.user, name=add_incomes_category_form.cleaned_data['name'].upper(),
                                                description=add_incomes_category_form.cleaned_data['description'])
             return HttpResponseRedirect(reverse('addinccat'))
     else:
@@ -238,7 +238,7 @@ def add_expenses_category(request):
     if request.method == "POST":
         add_expenses_category_form = AddExpCategoryForm(request.POST)
         if add_expenses_category_form.is_valid():
-            Category.objects.create(user=request.user, name=add_expenses_category_form.cleaned_data['name'],
+            Category.objects.create(user=request.user, name=add_expenses_category_form.cleaned_data['name'].upper(),
                                                 description=add_expenses_category_form.cleaned_data['description'])
             return HttpResponseRedirect(reverse('addexpcat'))
     else:
