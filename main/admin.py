@@ -14,21 +14,21 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ['user', 'category','sum','description', 'time_create']
     ordering = ('user',)
     search_fields = ['user', 'time_create']
-    list_filter = (
-        # ('user', admin.EmptyFieldListFilter),
-        ('category', admin.EmptyFieldListFilter),
-        ('time_create', admin.EmptyFieldListFilter),
-    )
+    # list_filter = (
+    #     # ('user', admin.EmptyFieldListFilter),
+    #     ('category', admin.EmptyFieldListFilter),
+    #     ('time_create', admin.EmptyFieldListFilter),
+    # )
 @admin.register(NecessaryExpenses)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['user', 'category','sum','description', 'time_create', 'time_update']
     ordering = ('user',)
     search_fields = ['user', 'category']
-    list_filter = (
-        # ('user', admin.EmptyFieldListFilter),
-        ('category', admin.EmptyFieldListFilter),
-        ('time_create', admin.EmptyFieldListFilter),
-    )
+    # list_filter = (
+    #     # ('user', admin.EmptyFieldListFilter),
+    #     ('category', admin.EmptyFieldListFilter),
+    #     ('time_create', admin.EmptyFieldListFilter),
+    # )
 
 # @admin.register(DailyExpenses)
 # class PostAdmin(admin.ModelAdmin):
