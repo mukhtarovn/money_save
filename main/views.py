@@ -170,7 +170,7 @@ def main_page(request):
     daily_save_amount = monthly_save.monthly_target / monthrange(2024, datetime.now().month)[1]
 
     max_monthly_exp = monthly_save.expenses_live#monthly_save.monthly_incoms-monthly_save.monthly_target
-    max_daily_exp = round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])
+    max_daily_exp = round(max_monthly_exp/(monthrange(2024, datetime.now().month)[1]-datetime.now().day))
     different_maxexp_daylyexp= max_daily_exp-total_exp['sum__sum']
     try:
         degre_save = round(total_exp['sum__sum']/max_monthly_exp*100)
