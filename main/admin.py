@@ -15,7 +15,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ('user',)
     search_fields = ['user', 'time_create']
     list_filter = (
-        ('user', admin.EmptyFieldListFilter),
+        # ('user', admin.EmptyFieldListFilter),
         ('category', admin.EmptyFieldListFilter),
         ('time_create', admin.EmptyFieldListFilter),
     )
@@ -25,7 +25,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ('user',)
     search_fields = ['user', 'category']
     list_filter = (
-        ('user', admin.EmptyFieldListFilter),
+        # ('user', admin.EmptyFieldListFilter),
         ('category', admin.EmptyFieldListFilter),
         ('time_create', admin.EmptyFieldListFilter),
     )
