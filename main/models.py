@@ -92,7 +92,7 @@ class FinancialStatement(models.Model):
     monthly_incoms = models.PositiveIntegerField(verbose_name='Meсячный доход', default=0)
     monthly_expenses = models.PositiveIntegerField(verbose_name='Meсячный расход', default=0)
     monthly_target = models.PositiveIntegerField(verbose_name='Цель экономии', default=0)
-    expenses_live = models.PositiveIntegerField(verbose_name='Расход текущий', default=0)
+    expenses_live = models.IntegerField(verbose_name='Расход текущий', default=0)
 
     class Meta:
         verbose_name = 'Финасы'
