@@ -27,20 +27,20 @@
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['День недели', 'Доходы', 'Расходы'],
-          ['{{sixdaybefore|safe}}', {{sixdaybefore_exp.sum__sum|safe}}, {{sixdaybefore_inc.sum__sum|safe}}],
-          ['{{fivedaybefore|safe}}', {{fivedaybefore_exp.sum__sum|safe}}, {{fivedaybefore_inc.sum__sum|safe}}],
-          ['{{fourdaybefore|safe}}', {{fourdaybefore_exp.sum__sum|safe}}, {{fourdaybefore_inc.sum__sum|safe}}],
-          ['{{threedaybefore|safe}}', {{threedaybefore_exp.sum__sum|safe}}, {{threedaybefore_inc.sum__sum|safe}}],
-          ['{{twodaybefore|safe}}', {{twodaybefore_exp.sum__sum|safe}}, {{twodaybefore_inc.sum__sum|safe}}],
-          ['{{yestorday|safe}}', {{yestorday_exp.sum__sum|safe}}, {{yestorday_inc.sum__sum|safe}}],
-          ['{{today|safe}}', {{today_exp.sum__sum|safe}}, {{today_inc.sum__sum|safe}}],
+          ['Дата', 'Доходы', 'Расходы'],
+          ['{{sixdaybefore|safe}}', {{sixdaybefore_inc.sum__sum|safe}}, {{sixdaybefore_exp.sum__sum|safe}}],
+          ['{{fivedaybefore|safe}}', {{fivedaybefore_inc.sum__sum|safe}},{{fivedaybefore_exp.sum__sum|safe}}],
+          ['{{fourdaybefore|safe}}', {{fourdaybefore_inc.sum__sum|safe}}, {{fourdaybefore_exp.sum__sum|safe}}],
+          ['{{threedaybefore|safe}}', {{threedaybefore_inc.sum__sum|safe}}, {{threedaybefore_exp.sum__sum|safe}}],
+          ['{{twodaybefore|safe}}', {{twodaybefore_inc.sum__sum|safe}}, {{twodaybefore_exp.sum__sum|safe}}],
+          ['{{yestorday|safe}}', {{yestorday_inc.sum__sum|safe}}, {{yestorday_exp.sum__sum|safe}}],
+          ['{{today|safe}}', {{today_inc.sum__sum|safe}}, {{today_exp.sum__sum|safe}}],
         ]);
 
         var options = {
           chart: {
             title: 'Доходы и Расходы',
-            subtitle: 'За последнюю неделю',
+            subtitle: 'по месяцам',
           }
         };
 
@@ -65,7 +65,7 @@
         <thead>
          <tr>
             <th scope="col" class="table-head-expemses">РАСХОДЫ</th>
-            <th scope="col" class="table-head-expemses"></th>
+            <th scope="col" class="table-head-expemses" style="width:100px"></th>
          </tr>
         </thead>
         <tbody>
@@ -86,7 +86,7 @@
     <thead>
     <tr>
       <th scope="col" class="head-color">ДОХОДЫ</th>
-      <th scope="col" class="head-color"></th>
+      <th scope="col" class="head-color" style="width:100px"></th>
     </tr>
   </thead>
   <tbody>
@@ -107,7 +107,7 @@
     <div class="col">
          <div id="donutchart" style="width: 900px; height: 500px;"></div>
     <br><br>
-<div id="columnchart_material" style="width: 800px; height: 500px;">    </div>
+<div id="columnchart_material" style="width: 800px; height: 300px;">    </div>
   </div>
 </div>
 {%endblock%}
