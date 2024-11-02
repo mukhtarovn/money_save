@@ -133,6 +133,62 @@ def main_page(request):
     title = 'Траты за день'
     user = request.user
     dailyexp_form = DailyExpForm(request.POST, user=user)
+    yestorday = today - timedelta(days=31)
+    twodaybefore = today - timedelta(days=60)
+    three_day = today - timedelta(days=90)
+    four_day = today - timedelta(days=120)
+    five_day = today - timedelta(days=150)
+    six_day = today - timedelta(days=180)
+
+    inc_today = Income.objects.filter(user=request.user, time_create__month=today.month).aggregate(Sum("sum"))
+    if inc_today['sum__sum'] == None:
+        inc_today['sum__sum'] = 0
+    exp_today = NecessaryExpenses.objects.filter(user=request.user, time_create__month=today.month).aggregate(
+        Sum("sum"))
+    if exp_today['sum__sum'] == None:
+        exp_today['sum__sum'] = 0
+    inc_yesterday = Income.objects.filter(user=request.user, time_create__month=yestorday.month).aggregate(Sum("sum"))
+    if inc_yesterday['sum__sum'] == None:
+        inc_yesterday['sum__sum'] = 0
+    exp_yesterday = NecessaryExpenses.objects.filter(user=request.user, time_create__month=yestorday.month).aggregate(
+        Sum("sum"))
+    if exp_yesterday['sum__sum'] == None:
+        exp_yesterday['sum__sum'] = 0
+    inc_two_day = Income.objects.filter(user=request.user, time_create__month=twodaybefore.month).aggregate(Sum("sum"))
+    if inc_two_day['sum__sum'] == None:
+        inc_two_day['sum__sum'] = 0
+    exp_two_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=twodaybefore.month).aggregate(
+        Sum("sum"))
+    if exp_two_day['sum__sum'] == None:
+        exp_two_day['sum__sum'] = 0
+    inc_three_day = Income.objects.filter(user=request.user, time_create__month=three_day.month).aggregate(Sum("sum"))
+    if inc_three_day['sum__sum'] == None:
+        inc_three_day['sum__sum'] = 0
+    exp_three_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=three_day.month).aggregate(
+        Sum("sum"))
+    if exp_three_day['sum__sum'] == None:
+        exp_three_day['sum__sum'] = 0
+    inc_four_day = Income.objects.filter(user=request.user, time_create__month=four_day.month).aggregate(Sum("sum"))
+    if inc_four_day['sum__sum'] == None:
+        inc_four_day['sum__sum'] = 0
+    exp_four_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=four_day.day).aggregate(
+        Sum("sum"))
+    if exp_four_day['sum__sum'] == None:
+        exp_four_day['sum__sum'] = 0
+    inc_five_day = Income.objects.filter(user=request.user, time_create__month=five_day.month).aggregate(Sum("sum"))
+    if inc_five_day['sum__sum'] == None:
+        inc_five_day['sum__sum'] = 0
+    exp_five_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=five_day.month).aggregate(
+        Sum("sum"))
+    if exp_five_day['sum__sum'] == None:
+        exp_five_day['sum__sum'] = 0
+    inc_six_day = Income.objects.filter(user=request.user, time_create__month=six_day.month).aggregate(Sum("sum"))
+    if inc_six_day['sum__sum'] == None:
+        inc_six_day['sum__sum'] = 0
+    exp_six_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=six_day.month).aggregate(
+        Sum("sum"))
+    if exp_six_day['sum__sum'] == None:
+        exp_six_day['sum__sum'] = 0
     if request.method == "POST" and dailyexp_form.is_valid():
         NecessaryExpenses.objects.create(user=request.user, sum=dailyexp_form.cleaned_data['sum'],
                                      category=dailyexp_form.cleaned_data['category'],
@@ -188,6 +244,12 @@ def main_page(request):
                'dailyexp': dailyexp_form,
                'dailyinc': dailyinc_form,
                'today': today,
+               "yestorday": yestorday,
+               "twodaybefore": twodaybefore,
+               "threedaybefore": three_day,
+               "fourdaybefore": four_day,
+               "fivedaybefore": five_day,
+               "sixdaybefore": six_day,
                'table_daily_exp': total_table(NecessaryExpenses.objects.filter(time_create__day=today.day, user=request.user), request),
                'table_daily_inc':total_table(Income.objects.filter(time_create__day=today.day, user=request.user), request),
                'total_inc': total_inc,
@@ -201,7 +263,21 @@ def main_page(request):
                'degre_exp': degre_exp,
                'degre_save': degre_save,
                'daily_exp_amount': different_maxexp_daylyexp,
-               'data_table': q1.union(q2).order_by('-time_create')
+               'data_table': q1.union(q2).order_by('-time_create'),
+                'today_exp': exp_today,
+                'today_inc': inc_today,
+                'yestorday_exp': exp_yesterday,
+                'yestorday_inc': inc_yesterday,
+                'twodaybefore_exp': exp_two_day,
+                'twodaybefore_inc': inc_two_day,
+                'threedaybefore_exp': exp_three_day,
+                'threedaybefore_inc': inc_three_day,
+                'fourdaybefore_exp': exp_four_day,
+                'fourdaybefore_inc': inc_four_day,
+                'fivedaybefore_exp': exp_five_day,
+                'fivedaybefore_inc': inc_five_day,
+                'sixdaybefore_exp': exp_six_day,
+                'sixdaybefore_inc': inc_six_day,
                }
     return render(request, 'main/index.html', content)
 

@@ -65,19 +65,49 @@
         });
     }
 </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Дата', 'Доходы', 'Расходы'],
+          ['{{sixdaybefore|safe}}', {{sixdaybefore_inc.sum__sum|safe}}, {{sixdaybefore_exp.sum__sum|safe}}],
+          ['{{fivedaybefore|safe}}', {{fivedaybefore_inc.sum__sum|safe}},{{fivedaybefore_exp.sum__sum|safe}}],
+          ['{{fourdaybefore|safe}}', {{fourdaybefore_inc.sum__sum|safe}}, {{fourdaybefore_exp.sum__sum|safe}}],
+          ['{{threedaybefore|safe}}', {{threedaybefore_inc.sum__sum|safe}}, {{threedaybefore_exp.sum__sum|safe}}],
+          ['{{twodaybefore|safe}}', {{twodaybefore_inc.sum__sum|safe}}, {{twodaybefore_exp.sum__sum|safe}}],
+          ['{{yestorday|safe}}', {{yestorday_inc.sum__sum|safe}}, {{yestorday_exp.sum__sum|safe}}],
+          ['{{today|safe}}', {{today_inc.sum__sum|safe}}, {{today_exp.sum__sum|safe}}],
+        ]);
+
+        var options = {
+          title: 'Отчет за неделю',
+          hAxis: {title: 'дата',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart1 = new google.visualization.AreaChart(document.getElementById('chart1_div'));
+        chart1.draw(data, options);
+      }
+    </script>
     {%endblock%}
 </head>
     <body>
         {%block content%}
         <div class="container-sm clearfix">
-            <dev class="d-flex justify-content m-3 card flex-row mb-3">
+            <div class="d-flex justify-content m-3 card flex-row mb-3">
                 <div>
-            <p class="fs-3 fw-semibold" style="margin-left:20px">МОЖНО ПОТРАТИТЬ СЕГОДНЯ: <strong class="display-5 font-monospace text-primary">{{daily_exp_amount}}</strong> </p>
+            <p class="fs-5 fw-semibold col-8 col-md-12" style="margin-left:20px">МОЖНО ПОТРАТИТЬ СЕГОДНЯ: <strong class="display-5 font-monospace text-primary">{{daily_exp_amount}}</strong> </p>
                 </div>
-                    <div id="chart_div" style="width: 120px; height: 120px; margin-left: 10%; margin-bottom:20px"></div>
+                    <div id="chart_div" style="height: 120px; margin-left: 3%; margin-bottom:20px" class=""></div>
                 <br>
+                    <div class="d-none d-md-block">
+                        <div id="chart1_div" style="height: 100%; width: 600px; margin-left:30px"></div>
+                    </div>
 <!--                <div id="chartik_div" style="width: 150px; height: 120px;"></div>-->
-            </dev>
+            </div>
             <hr class="border border-success border-3 opacity-75">
             <div class="row">
 
