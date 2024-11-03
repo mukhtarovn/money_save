@@ -138,53 +138,54 @@ def main_page(request):
     four_day = today - timedelta(days=4)
     five_day = today - timedelta(days=5)
     six_day = today - timedelta(days=6)
+    print(six_day)
 
-    inc_today = Income.objects.filter(user=request.user, time_create__month=today.month).aggregate(Sum("sum"))
+    inc_today = Income.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum("sum"))
     if inc_today['sum__sum'] == None:
         inc_today['sum__sum'] = 0
-    exp_today = NecessaryExpenses.objects.filter(user=request.user, time_create__month=today.month).aggregate(
+    exp_today = NecessaryExpenses.objects.filter(user=request.user, time_create__day=today.day).aggregate(
         Sum("sum"))
     if exp_today['sum__sum'] == None:
         exp_today['sum__sum'] = 0
-    inc_yesterday = Income.objects.filter(user=request.user, time_create__month=yestorday.month).aggregate(Sum("sum"))
+    inc_yesterday = Income.objects.filter(user=request.user, time_create__day=yestorday.day).aggregate(Sum("sum"))
     if inc_yesterday['sum__sum'] == None:
         inc_yesterday['sum__sum'] = 0
-    exp_yesterday = NecessaryExpenses.objects.filter(user=request.user, time_create__month=yestorday.month).aggregate(
+    exp_yesterday = NecessaryExpenses.objects.filter(user=request.user, time_create__day=yestorday.day).aggregate(
         Sum("sum"))
     if exp_yesterday['sum__sum'] == None:
         exp_yesterday['sum__sum'] = 0
-    inc_two_day = Income.objects.filter(user=request.user, time_create__month=twodaybefore.month).aggregate(Sum("sum"))
+    inc_two_day = Income.objects.filter(user=request.user, time_create__day=twodaybefore.day).aggregate(Sum("sum"))
     if inc_two_day['sum__sum'] == None:
         inc_two_day['sum__sum'] = 0
-    exp_two_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=twodaybefore.month).aggregate(
+    exp_two_day = NecessaryExpenses.objects.filter(user=request.user, time_create__day=twodaybefore.day).aggregate(
         Sum("sum"))
     if exp_two_day['sum__sum'] == None:
         exp_two_day['sum__sum'] = 0
-    inc_three_day = Income.objects.filter(user=request.user, time_create__month=three_day.month).aggregate(Sum("sum"))
+    inc_three_day = Income.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(Sum("sum"))
     if inc_three_day['sum__sum'] == None:
         inc_three_day['sum__sum'] = 0
-    exp_three_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=three_day.month).aggregate(
+    exp_three_day = NecessaryExpenses.objects.filter(user=request.user, time_create__day=three_day.day).aggregate(
         Sum("sum"))
     if exp_three_day['sum__sum'] == None:
         exp_three_day['sum__sum'] = 0
-    inc_four_day = Income.objects.filter(user=request.user, time_create__month=four_day.month).aggregate(Sum("sum"))
+    inc_four_day = Income.objects.filter(user=request.user, time_create__day=four_day.day).aggregate(Sum("sum"))
     if inc_four_day['sum__sum'] == None:
         inc_four_day['sum__sum'] = 0
-    exp_four_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=four_day.day).aggregate(
+    exp_four_day = NecessaryExpenses.objects.filter(user=request.user, time_create__day=four_day.day).aggregate(
         Sum("sum"))
     if exp_four_day['sum__sum'] == None:
         exp_four_day['sum__sum'] = 0
-    inc_five_day = Income.objects.filter(user=request.user, time_create__month=five_day.month).aggregate(Sum("sum"))
+    inc_five_day = Income.objects.filter(user=request.user, time_create__day=five_day.day).aggregate(Sum("sum"))
     if inc_five_day['sum__sum'] == None:
         inc_five_day['sum__sum'] = 0
-    exp_five_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=five_day.month).aggregate(
+    exp_five_day = NecessaryExpenses.objects.filter(user=request.user, time_create__day=five_day.day).aggregate(
         Sum("sum"))
     if exp_five_day['sum__sum'] == None:
         exp_five_day['sum__sum'] = 0
-    inc_six_day = Income.objects.filter(user=request.user, time_create__month=six_day.month).aggregate(Sum("sum"))
+    inc_six_day = Income.objects.filter(user=request.user, time_create__day=six_day.day).aggregate(Sum("sum"))
     if inc_six_day['sum__sum'] == None:
         inc_six_day['sum__sum'] = 0
-    exp_six_day = NecessaryExpenses.objects.filter(user=request.user, time_create__month=six_day.month).aggregate(
+    exp_six_day = NecessaryExpenses.objects.filter(user=request.user, time_create__day=six_day.day).aggregate(
         Sum("sum"))
     if exp_six_day['sum__sum'] == None:
         exp_six_day['sum__sum'] = 0
