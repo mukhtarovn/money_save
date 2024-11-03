@@ -132,12 +132,12 @@ def main_page(request):
     title = 'Траты за день'
     user = request.user
     dailyexp_form = DailyExpForm(request.POST, user=user)
-    yestorday = today - timedelta(days=31)
-    twodaybefore = today - timedelta(days=60)
-    three_day = today - timedelta(days=90)
-    four_day = today - timedelta(days=120)
-    five_day = today - timedelta(days=150)
-    six_day = today - timedelta(days=180)
+    yestorday = today - timedelta(days=1)
+    twodaybefore = today - timedelta(days=2)
+    three_day = today - timedelta(days=3)
+    four_day = today - timedelta(days=4)
+    five_day = today - timedelta(days=5)
+    six_day = today - timedelta(days=6)
 
     inc_today = Income.objects.filter(user=request.user, time_create__month=today.month).aggregate(Sum("sum"))
     if inc_today['sum__sum'] == None:
