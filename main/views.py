@@ -1,6 +1,5 @@
 from calendar import monthrange
 
-from dateutil.relativedelta import relativedelta
 from django.http import JsonResponse
 import json
 from django.contrib.auth.decorators import login_required
@@ -27,8 +26,8 @@ def save_time(request):
         user_time = data.get('user_time', None)
         if user_time:
             # Обрабатывайте полученное время, сохраняйте в базе данных или выполняйте другие действия
-            print(f"Время пользователя: {user_time[0:2]}")
-            today = user_time[0:2]
+            print(f"Время пользователя: {user_time}")
+            today = user_time
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
 
