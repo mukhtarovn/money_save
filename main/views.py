@@ -138,7 +138,6 @@ def main_page(request):
     four_day = today - timedelta(days=4)
     five_day = today - timedelta(days=5)
     six_day = today - timedelta(days=6)
-    print(six_day)
 
     inc_today = Income.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum("sum"))
     if inc_today['sum__sum'] == None:
@@ -403,7 +402,3 @@ def daily_saved_money(request):
     max_daily_exp = round(max_monthly_exp / monthrange(2024, datetime.now().month)[1])
     total_exp = NecessaryExpenses.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum('sum'))
     different_maxexp_daylyexp= max_daily_exp-total_exp['sum__sum']
-
-
-def examples(request):
-    return render(request, 'main/index1.html')

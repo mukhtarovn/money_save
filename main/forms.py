@@ -31,10 +31,6 @@ class DailyIncForm (forms.ModelForm):
 
 
 class DailyExpForm (forms.ModelForm):
-    # model = NecessaryExpenses
-    # sum = forms.IntegerField(label="СУММА")
-    # category = forms.ModelChoiceField(queryset=Category.objects.filter(), label="КАТЕГОРИЯ", empty_label='Категория не выбранна')
-    # description = forms.CharField(max_length=100, label="ОПИСАНИЕ", required=False, widget=(forms.Textarea(attrs={'rows': 2, 'cols': 37})))
     class Meta:
         model = NecessaryExpenses
         fields = ['sum', 'category', 'description']
