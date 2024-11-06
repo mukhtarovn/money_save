@@ -36,27 +36,14 @@
           </div>
       <div class="d-flex justify-content-center">
       <a type="button" class="btn btn-outline-dark" style="margin-left:4px;" href="/">ГЛАВНАЯ</a>
-      <a type="button" class="btn btn-outline-dark" style="margin-left:4px;" href="{% url 'reports:month'%}">ОТЧЕТ</a>
-<!--          <div class="dropdown">-->
-<!--          <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left:4px;">-->
-<!--              ОТЧЕТ-->
-<!--          </button>-->
-<!--          <ul class="dropdown-menu">-->
-<!--            <li><a class="dropdown-item" href="{% url 'reports:month'%}">ТЕКУЩИЙ МЕСЯЦ</a></li>-->
-<!--            <li><a class="dropdown-item" href="{% url 'reports:last_month'%}">ПРОШЛЫЙ МЕСЯЦ</a></li>-->
-<!--            <li><a class="dropdown-item" href="{% url 'calculate'%}">ЗА ВСЕ ВРЕМЯ</a></li>-->
-
-<!--              <li><hr class="dropdown-divider"></li>-->
-<!--            <li><a class="dropdown-item" href="{% url 'auth:logout'%}">ВЫЙТИ</a></li>-->
-<!--          </ul>-->
-<!--        </div>-->
+          <a type="buton" class="btn btn-outline-dark" style="margin-left:4px;" href="{% url 'reports:month'%}">ОТЧЕТ</a>
         {%if user.is_authenticated%}
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left:4px;">
               {{user|upper}}
           </button>
           <ul class="dropdown-menu">
-<!--            <li><a class="dropdown-item" href="{%url 'addinccat'%}">Редактор категорий</a></li>-->
+            <li><a class="dropdown-item" href="{%url 'addinccat'%}">Редактор категорий</a></li>
             <li><a class="dropdown-item" href="{% url 'auth:edit' %}">Редактировать профиль</a></li>
             <li><a class="dropdown-item" href="{% url 'finstatedit' monthly_save_amount.pk %}">Редактор фин.данных</a></li>
             <li><a class="dropdown-item" href="{% url 'category_list' %}">Редактор категорий</a></li>
