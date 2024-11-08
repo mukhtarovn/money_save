@@ -229,11 +229,11 @@ def main_page(request):
     max_daily_exp = round(max_monthly_exp/((monthrange(2024, datetime.now().month)[1]-datetime.now().day)+1))
     different_maxexp_daylyexp= max_daily_exp-total_exp['sum__sum']
     try:
-        degre_save = round(total_exp['sum__sum']/max_monthly_exp*100)
+        degre_save = total_exp['sum__sum']/max_daily_exp*100
     except:
         degre_save = 0
     try:
-        degre_exp=round(total_exp['sum__sum']/ round(max_monthly_exp/monthrange(2024, datetime.now().month)[1])*100)
+        degre_exp=round(total_exp['sum__sum']/max_daily_exp*100)
     except ZeroDivisionError:
         degre_exp=0
     q1=NecessaryExpenses.objects.filter(user=user, time_create__day=today.day)
