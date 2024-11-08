@@ -8,7 +8,7 @@ import main.views as main
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main.main_page, name='main'),
-    path('calculate/', main.calculate, name='calculate'),
+    # path('calculate/', main.calculate, name='calculate'),
     path('add_inc_cat/', main.add_incomes_category, name='addinccat'),
     path('add_exp_cat/', main.add_expenses_category, name='addexpcat'),
     path('auth/', include('authapp.urls', namespace='auth')),

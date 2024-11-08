@@ -39,10 +39,7 @@ def month(request):
             total_inc = Income.objects.filter(user=request.user, time_create__gte=request.POST['start'], time_create__lte=end).aggregate(Sum('sum'))
             total_exp = NecessaryExpenses.objects.filter(user=request.user, time_create__gte=request.POST['start'], time_create__lte=end).aggregate(
                 Sum('sum'))
-            try:
-                total_save = total_inc['sum__sum'] - total_exp['sum__sum']
-            except:
-                total_save = 0
+
         if request.POST['month'] and request.POST['month'] != 'Месяц':
             print(request.POST['month'])
             expenses = expenses.filter(time_create__month=months[request.POST['month']], user=request.user)
@@ -50,6 +47,10 @@ def month(request):
             total_inc = Income.objects.filter(user=request.user, time_create__month=months[request.POST['month']]).aggregate(Sum('sum'))
             total_exp = NecessaryExpenses.objects.filter(user=request.user, time_create__month=months[request.POST['month']]).aggregate(
                 Sum('sum'))
+        try:
+            total_save = total_inc['sum__sum'] - total_exp['sum__sum']
+        except:
+            total_save = 0
 
     inc_today = Income.objects.filter(user=request.user, time_create__month=today.month).aggregate(Sum("sum"))
     if inc_today['sum__sum'] == None:
