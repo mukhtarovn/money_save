@@ -20,6 +20,7 @@ today = datetime.now().date()
 category_income = CategoryIncomes
 category_exp = Category
 
+
 def save_time(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -208,8 +209,8 @@ def main_page(request):
     else:
         dailyinc_form = DailyIncForm(user=user)
 
-    total_inc=Income.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum('sum'))
-    total_exp=NecessaryExpenses.objects.filter(user=request.user, time_create__day=today.day).aggregate(Sum('sum'))
+    total_inc=Income.objects.filter(user=request.user, time_create__day=today.day, time_create__month=today.month).aggregate(Sum('sum'))
+    total_exp=NecessaryExpenses.objects.filter(user=request.user, time_create__day=today.day, time_create__month=today.month).aggregate(Sum('sum'))
 
     if total_exp['sum__sum'] == None:
         total_exp['sum__sum']=0
@@ -236,8 +237,8 @@ def main_page(request):
         degre_exp=round(total_exp['sum__sum']/max_daily_exp*100)
     except ZeroDivisionError:
         degre_exp=0
-    q1=NecessaryExpenses.objects.filter(user=user, time_create__day=today.day)
-    q2=Income.objects.filter(user=user, time_create__day=today.day)
+    q1=NecessaryExpenses.objects.filter(user=user, time_create__day=today.day, time_create__month=today.month)
+    q2=Income.objects.filter(user=user, time_create__day=today.day, time_create__month=today.month)
 
     content = {'title': title,
                'dailyexp': dailyexp_form,
@@ -249,8 +250,8 @@ def main_page(request):
                "fourdaybefore": four_day,
                "fivedaybefore": five_day,
                "sixdaybefore": six_day,
-               'table_daily_exp': total_table(NecessaryExpenses.objects.filter(time_create__day=today.day, user=request.user), request),
-               'table_daily_inc':total_table(Income.objects.filter(time_create__day=today.day, user=request.user), request),
+               'table_daily_exp': total_table(NecessaryExpenses.objects.filter(time_create__day=today.day, time_create__month=today.month, user=request.user), request),
+               'table_daily_inc':total_table(Income.objects.filter(time_create__day=today.day, time_create__month=today.month, user=request.user), request),
                'total_inc': total_inc,
                'total_exp': total_exp,
                'daily_save': daily_save,
