@@ -12,7 +12,7 @@ def month(request):
     title = "Отчет за месяц"
     monthly_save = FinancialStatement.objects.get(user=request.user)
     income = Income.objects.filter(user=request.user)
-    expenses = NecessaryExpenses.objects.filter(user=request.user)
+    expenses = NecessaryExpenses.objects.filter(user=request.user, time_create__month=today.month)
     total_inc = Income.objects.filter(user=request.user).aggregate(Sum('sum'))
     total_exp = NecessaryExpenses.objects.filter(user=request.user).aggregate(Sum('sum'))
     try:
