@@ -132,10 +132,34 @@
 
     <div class="col">
          <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    <br><br>
+        <br><br><div>
+        <table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Дата</th>
+      <th scope="col">Категория</th>
+      <th scope="col">Сумма</th>
+      <th scope="col">Описание</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for data in all_expenses%}
+    <tr>
+      <th scope="row" style="width:110px">{{data.time_create.day}}.{{data.time_create.month}}  {{data.time_create.time}}</th>
+      <td style="width:150px">{{data.category}}</td>
+      <td style="width:110px">{{data.sum}}</td>
+      <td>{{data.description}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+        <br>
+    </div>
 <div id="columnchart_material" style="width: 800px; height: 300px;">    </div>
   </div>
 </div>
 {%endblock%}
+    <div>
+    </div>
 </body>
 </html>

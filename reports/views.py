@@ -41,7 +41,6 @@ def month(request):
                 Sum('sum'))
 
         if request.POST['month'] and request.POST['month'] != 'Месяц':
-            print(request.POST['month'])
             expenses = expenses.filter(time_create__month=months[request.POST['month']], user=request.user)
             income = income.filter(time_create__month=months[request.POST['month']], user=request.user)
             total_inc = Income.objects.filter(user=request.user, time_create__month=months[request.POST['month']]).aggregate(Sum('sum'))
@@ -120,6 +119,7 @@ def month(request):
         'simple': for_table_data(total_table(expenses, request)),
         'today_exp': exp_today,
         'today_inc': inc_today,
+        'all_expenses': expenses,
         'yestorday_exp': exp_yesterday,
         'yestorday_inc': inc_yesterday,
         'twodaybefore_exp': exp_two_day,
